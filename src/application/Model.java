@@ -20,7 +20,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 
 
 public class Model {
-
+	//test
     public void log(Object o){
         System.out.println(o);
     }
