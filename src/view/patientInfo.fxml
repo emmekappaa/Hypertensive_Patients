@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="906.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerPatientInfo">
+    
+    <tabs>
+        <Tab text="Patient info">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Text fontSmoothingType="LCD" layoutX="35.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generic info">
+                     <font>
+                        <Font name="Tahoma" size="29.0" />
+                     </font>
+                  </Text>
+                  <TableView layoutX="528.0" layoutY="31.0" prefHeight="211.0" prefWidth="332.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+                  <Text fontSmoothingType="LCD" layoutX="32.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Elenco patologie" wrappingWidth="233.513671875">
+                     <font>
+                        <Font name="Tahoma" size="29.0" />
+                     </font>
+                  </Text>
+                  <TableView layoutX="28.0" layoutY="300.0" prefHeight="222.0" prefWidth="327.0">
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="Patologia" />
+                        <TableColumn editable="false" prefWidth="120.5333251953125" text="Start" />
+                        <TableColumn editable="false" prefWidth="130.66665649414062" text="End" />
+                     </columns>
+                  </TableView>
+                  <TextArea layoutX="256.0" layoutY="116.0" prefHeight="23.0" prefWidth="200.0" />
+                  <Button layoutX="729.0" layoutY="340.0" mnemonicParsing="false" text="Aggiungi patologia" />
+                  <Button layoutX="69.0" layoutY="131.0" mnemonicParsing="false" text="Aggiungi revisione" />
+                  <DatePicker layoutX="476.0" layoutY="428.0" prefHeight="8.0" prefWidth="182.0" />
+                  <DatePicker layoutX="476.0" layoutY="475.0" prefHeight="20.0" prefWidth="190.0" />
+                  <ChoiceBox layoutX="469.0" layoutY="356.0" prefHeight="27.0" prefWidth="191.0" />
+                  <Button layoutX="822.0" layoutY="490.0" mnemonicParsing="false" text="Exit" />
+               </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+        <Tab text="Blood pressure">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                  <LineChart layoutX="33.0" layoutY="39.0" prefHeight="258.0" prefWidth="427.0">
+                    <xAxis>
+                      <CategoryAxis label="Days" prefHeight="29.0" prefWidth="368.0" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+                  <TableView layoutX="153.0" layoutY="306.0" prefHeight="204.0" prefWidth="618.0">
+                    <columns>
+                      <TableColumn prefWidth="105.06672668457031" text="Data" />
+                      <TableColumn prefWidth="45.333251953125" text="Patology" />
+                    </columns>
+                  </TableView>
+                  <DatePicker layoutX="512.0" layoutY="74.0" prefHeight="32.0" prefWidth="188.0" />
+                  <Button layoutX="560.0" layoutY="217.0" mnemonicParsing="false" text="Show data" />
+                  <Text layoutX="513.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="517.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <DatePicker layoutX="515.0" layoutY="151.0" prefHeight="32.0" prefWidth="188.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+      <Tab text="Therapies">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="tablePatient1" layoutX="26.0" layoutY="29.0" prefHeight="226.0" prefWidth="616.0">
+                     <columns>
+                        <TableColumn fx:id="cf1" prefWidth="86.79996109008789" text="Drug" />
+                        <TableColumn fx:id="name1" prefWidth="126.80005645751953" text="Quantity" />
+                        <TableColumn fx:id="surname1" prefWidth="95.60002136230469" text="Assumption" />
+                        <TableColumn fx:id="email1" prefWidth="106.93325805664062" text="Indication" />
+                        <TableColumn prefWidth="117.86666870117188" text="Status" />
+                     </columns>
+                  </TableView>
+                  <Button layoutX="695.0" layoutY="122.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="122.0" text="Save changes" />
+                  <Text layoutX="50.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add new therapy">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="50.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drug:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="240.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Assumption:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="46.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="376.0" layoutY="435.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <ChoiceBox layoutX="112.0" layoutY="349.0" prefHeight="27.0" prefWidth="70.0" />
+                  <ChoiceBox layoutX="373.0" layoutY="350.0" prefHeight="27.0" prefWidth="70.0" />
+                  <TextArea layoutX="139.0" layoutY="423.0" prefHeight="34.0" prefWidth="171.0" />
+                  <TextArea layoutX="502.0" layoutY="410.0" prefHeight="34.0" prefWidth="171.0" />
+                  <Button layoutX="757.0" layoutY="472.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" text="Insert therapy" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+    </tabs>
+</TabPane>
