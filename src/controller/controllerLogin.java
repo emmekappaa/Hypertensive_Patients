@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Model;
 
-public class controllerLogin extends Main implements Initializable {
+public class controllerLogin implements Initializable {
 
 	@FXML
 	private ChoiceBox<String> choiceField;

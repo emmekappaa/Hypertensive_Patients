@@ -51,7 +51,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <TextField fx:id="new_occupation_input" layoutX="125.0" layoutY="38.0" />
+                        <TextField fx:id="finderTextArea" layoutX="125.0" layoutY="38.0" />
                         <Button fx:id="findButton" layoutX="325.0" layoutY="38.0" mnemonicParsing="false" onAction="#findClicked" text="Find" />
                         <Label layoutX="33.0" layoutY="42.0" text="Find patient" />
                   <TableView fx:id="tablePatient" layoutX="52.0" layoutY="105.0" prefHeight="185.0" prefWidth="495.0">

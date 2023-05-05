@@ -13,7 +13,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
 public class Model {
 	// test per michele che è bravo
 	public void log(Object o) {
@@ -349,19 +348,15 @@ public class Model {
 
 		return tmp;
 	}
-	
-	
-	
 
 	public ObservableList<Patient> getPatientsByDoctor(String doctorCF) throws SQLException {
 
 		ObservableList<Patient> patientList = FXCollections.observableArrayList();
-		String query = "SELECT * FROM patient WHERE CF_doctor ='"+ doctorCF+"'";
+		String query = "SELECT * FROM patient WHERE CF_doctor ='" + doctorCF + "'";
 		log(query);
 		ResultSet rs = runQuery(query);
 
-		while (rs.next())
-		{
+		while (rs.next()) {
 			String CF = rs.getString("CF");
 			String name = rs.getString("Name");
 			String surname = rs.getString("Surname");
@@ -374,6 +369,35 @@ public class Model {
 
 		return patientList;
 	}
-	
+
+	public ObservableList<PatientwithPathology> getPatientsWithPathology(String CF_patient) throws SQLException {
+
+		ObservableList<PatientwithPathology> patientList = FXCollections.observableArrayList();
+
+		String query = "SELECT patient.CF, patient.Name, patient.Surname, patient.Email, patient.Password, "
+				+ "patientPathology.Start_Date, patientPathology.End_Date, patientPathology.ID_Pathology, "
+				+ "pathology.Description " + "FROM patientPathology "
+				+ "JOIN patient ON patient.CF = patientPathology.CF_Patient "
+				+ "JOIN pathology ON pathology.ID = patientPathology.ID_Pathology " + "WHERE patient.CF = '"
+				+ CF_patient + "'";
+
+		ResultSet rs = runQuery(query);
+
+		while (rs.next()) {
+			String CF = rs.getString("CF");
+			String name = rs.getString("Name");
+			String surname = rs.getString("Surname");
+			String email = rs.getString("Email");
+			String password = rs.getString("Password");
+			String startDate = rs.getString("Start_Date");
+			String endDate = rs.getString("End_Date");
+			int pathologyId = rs.getInt("ID_Pathology");
+			String pathologyDescription = rs.getString("Description");
+			PatientwithPathology patient = new PatientwithPathology(CF, name, surname, email, password, "", startDate,endDate, pathologyId, pathologyDescription);
+			patientList.add(patient);
+		}
+
+		return patientList;
+	}
 
 }

@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,7 +31,8 @@ public class controllerDoctor implements Initializable {
 	private Text nameDoctor;
 
 	@FXML
-	private TextField new_occupation_input;
+	private TextField finderTextArea;
+
 	@FXML
 	private Text numPazienti;
 
@@ -74,14 +76,37 @@ public class controllerDoctor implements Initializable {
 	}
 
 	@FXML
-	void findClicked(ActionEvent event) throws IOException 
-	{
-		FXMLLoader fxmlLoaderlogged = new FXMLLoader(controllerPatient.class.getResource("../view/patientInfo.fxml"));
-		Stage currentStage = (Stage) exit.getScene().getWindow();
-		Scene scenePatientInfo = new Scene(fxmlLoaderlogged.load());
-		currentStage.setTitle("Patient Info");
-		currentStage.setScene(scenePatientInfo);
-		currentStage.show();
+	void findClicked(ActionEvent event) throws IOException {
+
+		String tmp_patient_CF = finderTextArea.getText();
+		boolean CF_detected = false;
+
+		for (Patient p : patients) {
+			if (p.getCF().equals(tmp_patient_CF)) {
+				CF_detected = true;
+				// Esci dal ciclo for-each se il codice fiscale viene trovato
+				break;
+			}
+		}
+
+		if (CF_detected == true) {
+			
+			// singleton per condivisione email
+			Session session = Session.getInstance();
+			session.setCF_shmem(tmp_patient_CF);
+			
+			FXMLLoader fxmlLoaderlogged = new FXMLLoader(controllerPatient.class.getResource("../view/patientInfo.fxml"));
+			Stage currentStage = (Stage) exit.getScene().getWindow();
+			Scene scenePatientInfo = new Scene(fxmlLoaderlogged.load());
+			currentStage.setTitle("Patient Info");
+			currentStage.setScene(scenePatientInfo);
+			currentStage.show();
+		} 
+		else 
+		{
+			System.out.println("Paziente non trovato!!"); //deve diventare alert, a me non trova la classe
+		}
+
 	}
 
 	@Override
