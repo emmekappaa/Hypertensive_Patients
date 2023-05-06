@@ -1,17 +1,23 @@
 package model;
 
-import java.security.MessageDigest;
+import java.security.MessageDigest; 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Model {
 	// test per michele che è bravo
@@ -366,8 +372,47 @@ public class Model {
 			Patient patient = new Patient(CF, name, surname, email, password, CF_doctor);
 			patientList.add(patient);
 		}
-
+		
 		return patientList;
+	}
+	
+	public String getCfDoctorByCfPatient(String patientCF) throws SQLException {
+
+		String query = "SELECT CF_doctor FROM patient WHERE CF ='" + patientCF + "'";
+		log(query);
+		ResultSet rs = runQuery(query);
+		
+		//senza il next perche questa funzione viene usata in un punto dove il dottore entra nel suo paziente, quindi per forza di cose questa query DOVRA dare sempre una e una sola riga 
+		return rs.getString("CF_doctor");
+		
+	}
+	
+	public List<String> getAllDrugs() throws SQLException {
+
+		List<String> lista = new ArrayList<String>();
+		String query = "SELECT description FROM drug";
+		//log(query);
+		ResultSet rs = runQuery(query);
+		while (rs.next()) {
+			String result = rs.getString("description");
+			lista.add(result);
+		}
+		return lista;
+	}
+	
+	
+	public void insertTherapy(String idDoctor,String idPatient,String idDrug,String qnty,String Assumptions,String Indication) throws SQLException {
+		String query = "INSERT INTO therapy (CF_Patient, CF_Doctor, ID_Drug, Quantity, Assumptions, Indication, Status) VALUES ('"+idDoctor+"', '"+idPatient+"', "+idDrug+", "+qnty+", "+Assumptions+", '"+Indication+"', 'ongoing')";
+		log(query);
+		@SuppressWarnings("unused")
+		ResultSet rs = runQuery(query);
+	}
+	
+	public void insertGenericInfo(String idDoctor,String idPatient, String info) throws SQLException {
+		String query = "INSERT INTO patientDoctor (CF_Doctor, CF_Patient, Info_Date, Info) VALUES ('"+idDoctor+"', '"+idPatient+"','"+java.time.LocalDate.now()+"', '"+info+"')";
+		log(query);
+		@SuppressWarnings("unused")
+		ResultSet rs = runQuery(query);
 	}
 
 	public ObservableList<PatientwithPathology> getPatientsWithPathology(String CF_patient) throws SQLException {
