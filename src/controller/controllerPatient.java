@@ -1,43 +1,59 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Model;
 import model.Patient;
 
-public class controllerPatient implements Initializable  {
+public class controllerPatient implements Initializable{
 
-	@FXML
-    private Button create_occupation;
+    @FXML
+    private ChoiceBox<String> choiceDrug;
+
+    @FXML
+    private TextArea dbpField;
+
+    @FXML
+    private Button exit;
 
     @FXML
     private Text namePatient;
 
     @FXML
-    private TextField new_occupation_input;
+    private Text namePatient1;
 
     @FXML
-    private TableView<?> occupations_table;
-    
+    private TextArea sbpField;
+
     @FXML
-	private Scene myScene;
-    
+    private Button submitBPM;
+
     @FXML
-	private Button exit;
-	
+    private Button takeDrugs;
+
+    @FXML
+    void submitBPM_clicked(ActionEvent event) {
+
+    }
+
+    @FXML
+    void takeDrugs_clicked(ActionEvent event) {
+
+    }
+    
     private Patient infoPerson;
 
 	Model model = null;
@@ -60,11 +76,15 @@ public class controllerPatient implements Initializable  {
     	try {
 			model = Model.getInstance();
 			infoPerson = (Patient)model.retrieveInfoByEmail(session.getMail(),"patient");
+			choiceDrug.getItems().addAll(model.getAvaiableDrugs(infoPerson.getCF()));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	namePatient.setText(infoPerson.getName());
+    	namePatient1.setText(infoPerson.getCF_doctor());
+    	
+    	
    	}
 
 

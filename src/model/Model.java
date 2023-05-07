@@ -1,6 +1,6 @@
 package model;
 
-import java.security.MessageDigest; 
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,9 +15,6 @@ import java.util.Map;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Model {
 	// test per michele che è bravo
@@ -354,6 +351,38 @@ public class Model {
 
 		return tmp;
 	}
+	
+	public Object retrieveInfoByCF(String cf, String table) throws SQLException {
+		String q = "SELECT * FROM " + table + " WHERE CF='" + cf + "'";
+		log(q);
+		ResultSet rs = runQuery(q);
+		Object tmp = null;
+		String name = " ";
+		String surname = " ";
+		String password = " ";
+		String cf_doctor = " ";
+		String email = " ";
+
+		if (rs.next()) {
+			// Riempio i campi dell'oggetto Doctor con le informazioni ottenute dalla query
+			name = rs.getString("name");
+			surname = rs.getString("surname");
+			password = rs.getString("password");
+			email = rs.getString("email");
+			if (table.equals("patient")) {
+				cf_doctor = rs.getString("CF_doctor");
+			}
+
+		}
+
+		if (table.equals("doctor")) {
+			tmp = new Doctor(cf, name, surname, email, password);
+		} else {
+			tmp = new Patient(cf, name, surname, email, password, cf_doctor);
+		}
+
+		return tmp;
+	}
 
 	public ObservableList<Patient> getPatientsByDoctor(String doctorCF) throws SQLException {
 
@@ -376,6 +405,68 @@ public class Model {
 		return patientList;
 	}
 	
+	public ObservableList<Therapy> getPatientTherapies(String CF) throws SQLException {
+
+		ObservableList<Therapy> list = FXCollections.observableArrayList();
+		String query = "SELECT * FROM therapy WHERE CF_Patient ='" + CF + "'";
+		log(query);
+		ResultSet rs = runQuery(query);
+
+		while (rs.next()) {
+			int id = rs.getInt("ID");
+			String cf_patient = rs.getString("CF_Patient");
+			String cf_doctor = rs.getString("CF_Patient");
+			String id_drug = rs.getString("ID_Drug");
+			int quantity = rs.getInt("Quantity");
+			int assumption = rs.getInt("Assumptions");
+			String indication = rs.getString("Indication");
+			String status = rs.getString("Status");
+			
+			Therapy therapy = new Therapy(id,cf_patient,cf_doctor,id_drug,quantity,assumption,indication,status);
+			//Therapy therapy = new Therapy(1,"","","",1,1,"","");
+			list.add(therapy);
+		}
+		return list;
+	}
+	
+	public ObservableList<Info> getPatientInfos(String CF) throws SQLException {
+		
+		ObservableList<Info> list = FXCollections.observableArrayList();
+		String query = "SELECT * FROM patientDoctor WHERE CF_Patient ='" + CF + "'";
+		log(query);
+		ResultSet rs = runQuery(query);
+
+		while (rs.next()) {
+			String CF_Doctor = rs.getString("CF_Doctor");
+			String infoText = rs.getString("Info");
+			String infoDate = rs.getString("Info_Date");
+			
+			Info info_tmp = new Info(CF_Doctor,infoText,infoDate);
+			list.add(info_tmp);
+		}
+		return list;
+	}
+	
+	
+	
+	public ObservableList<Pathology> getPatientPathologies(String CF) throws SQLException {
+
+		ObservableList<Pathology> list = FXCollections.observableArrayList();
+		String query = "SELECT * FROM patientPathology WHERE CF_Patient ='" + CF + "'";
+		log(query);
+		ResultSet rs = runQuery(query);
+
+		while (rs.next()) {
+			String id = rs.getString("ID_Pathology");
+			String start = rs.getString("Start_Date");
+			String end = rs.getString("End_Date");
+			Pathology pathology = new Pathology(id, "",start, end);
+			list.add(pathology);
+		}
+		
+		return list;
+	}
+	
 	public String getCfDoctorByCfPatient(String patientCF) throws SQLException {
 
 		String query = "SELECT CF_doctor FROM patient WHERE CF ='" + patientCF + "'";
@@ -387,14 +478,79 @@ public class Model {
 		
 	}
 	
+	public ObservableList<Symptom> getDiagnosiSymptom(int ID) throws SQLException {
+
+		ObservableList<Symptom> list = FXCollections.observableArrayList();
+		String query = "SELECT diagnosis.Date, ds.ID_Symptom FROM diagnosis INNER JOIN diagnosisSymptoms ds ON diagnosis.ID = ds.ID_Diagnosis WHERE diagnosis.ID='"+ID+"'";
+		log(query);
+		ResultSet rs = runQuery(query);
+		while (rs.next()) {
+			String id = rs.getString("ID_Symptom");
+			String date = rs.getString("Date");
+			Symptom symptom = new Symptom(id,date);
+			list.add(symptom);
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
+	public ObservableList<Diagnosis> getDiagnosis(String start,String end) throws SQLException {
+
+		ObservableList<Diagnosis> list = FXCollections.observableArrayList();
+		String query = "SELECT * FROM diagnosis WHERE DATE BETWEEN '"+start+"' and '"+end+"'";
+		log(query);
+		ResultSet rs = runQuery(query);
+		while (rs.next()) {
+			int id = rs.getInt("ID");
+			String cf_patient = rs.getString("CF_Patient");
+			String date = rs.getString("Date");
+			int SBP = rs.getInt("SBP");
+			int DBP = rs.getInt("DBP");
+			Diagnosis diag = new Diagnosis(id,cf_patient,date,SBP,DBP);
+			list.add(diag);
+		}
+		return list;
+	}
+
+	
+	
 	public List<String> getAllDrugs() throws SQLException {
 
 		List<String> lista = new ArrayList<String>();
-		String query = "SELECT description FROM drug";
+		String query = "SELECT ID FROM drug";
 		//log(query);
 		ResultSet rs = runQuery(query);
 		while (rs.next()) {
-			String result = rs.getString("description");
+			String result = rs.getString("ID");
+			lista.add(result);
+		}
+		return lista;
+	}
+	
+	public List<String> getAllPathologies() throws SQLException {
+
+		List<String> lista = new ArrayList<String>();
+		String query = "SELECT ID FROM pathology";
+		//log(query);
+		ResultSet rs = runQuery(query);
+		while (rs.next()) {
+			String result = rs.getString("ID");
+			lista.add(result);
+		}
+		return lista;
+	}
+	
+	public List<String> getAvaiableDrugs(String cf) throws SQLException {
+
+		List<String> lista = FXCollections.observableArrayList();
+		String query = "SELECT ID_Drug FROM therapy WHERE CF_Patient='"+cf+"' AND status='ongoing'";
+		//log(query);
+		ResultSet rs = runQuery(query);
+		while (rs.next()) {
+			String result = rs.getString("ID_Drug");
 			lista.add(result);
 		}
 		return lista;
@@ -402,7 +558,44 @@ public class Model {
 	
 	
 	public void insertTherapy(String idDoctor,String idPatient,String idDrug,String qnty,String Assumptions,String Indication) throws SQLException {
-		String query = "INSERT INTO therapy (CF_Patient, CF_Doctor, ID_Drug, Quantity, Assumptions, Indication, Status) VALUES ('"+idDoctor+"', '"+idPatient+"', "+idDrug+", "+qnty+", "+Assumptions+", '"+Indication+"', 'ongoing')";
+		String query = "INSERT INTO therapy (CF_Patient, CF_Doctor, ID_Drug, Quantity, Assumptions, Indication, Status) VALUES ('"+idDoctor+"', '"+idPatient+"', '"+idDrug+"', "+qnty+", "+Assumptions+", '"+Indication+"', 'ongoing')";
+		log(query);
+		@SuppressWarnings("unused")
+		ResultSet rs = runQuery(query);
+	}
+	
+	
+	public void updateTherapy(Integer ID, String idDoctor,String idPatient,String idDrug,String qnty,String Assumptions,String Indication,String status) throws SQLException {
+		String query = "UPDATE therapy SET CF_Doctor='" + idDoctor + "', CF_Patient='" + idPatient + "', ID_Drug='" + idDrug + "', Quantity=" + qnty + ", Assumptions=" + Assumptions + ", Indication='" + Indication + "', Status='" + status + "' WHERE ID=" + ID;
+		log(query);
+		@SuppressWarnings("unused")
+		ResultSet rs = runQuery(query);
+	}
+	
+	
+	public void insertPathology(String id_pat,String cf,String start, String end) throws SQLException {
+		String query;
+		if(end == null) {
+			query = "INSERT INTO patientPathology (ID_Pathology, CF_Patient, Start_Date) VALUES ('"+id_pat+"', '"+cf+"', '"+start+"')";
+		}
+		else {
+			query = "INSERT INTO patientPathology (ID_Pathology, CF_Patient, Start_Date, End_Date) VALUES ('"+id_pat+"', '"+cf+"', '"+start+"', '"+end+"')";		}
+		log(query);
+		@SuppressWarnings("unused")
+		ResultSet rs = runQuery(query);
+	}
+	
+	public void updatePathology(String id_pat,String cf,String start, String end) throws SQLException{
+		
+		String query;
+		if(end != null)
+		{
+			query = "UPDATE patientPathology SET ID_Pathology='" + id_pat + "', CF_Patient='" + cf + "', Start_Date='" + start + "', End_Date='" + end + "' WHERE ID_Pathology='" + id_pat + "' AND Start_Date='"+start+"' AND CF_Patient='"+cf+"'";
+		}
+		else
+		{
+			query = "UPDATE patientPathology SET ID_Pathology='" + id_pat + "', CF_Patient='" + cf + "', Start_Date='" + start + "' WHERE ID_Pathology='" + id_pat + "' AND Start_Date='"+start+"' AND CF_Patient='"+cf+"'";
+		}
 		log(query);
 		@SuppressWarnings("unused")
 		ResultSet rs = runQuery(query);
@@ -415,34 +608,6 @@ public class Model {
 		ResultSet rs = runQuery(query);
 	}
 
-	public ObservableList<PatientwithPathology> getPatientsWithPathology(String CF_patient) throws SQLException {
-
-		ObservableList<PatientwithPathology> patientList = FXCollections.observableArrayList();
-
-		String query = "SELECT patient.CF, patient.Name, patient.Surname, patient.Email, patient.Password, "
-				+ "patientPathology.Start_Date, patientPathology.End_Date, patientPathology.ID_Pathology, "
-				+ "pathology.Description " + "FROM patientPathology "
-				+ "JOIN patient ON patient.CF = patientPathology.CF_Patient "
-				+ "JOIN pathology ON pathology.ID = patientPathology.ID_Pathology " + "WHERE patient.CF = '"
-				+ CF_patient + "'";
-
-		ResultSet rs = runQuery(query);
-
-		while (rs.next()) {
-			String CF = rs.getString("CF");
-			String name = rs.getString("Name");
-			String surname = rs.getString("Surname");
-			String email = rs.getString("Email");
-			String password = rs.getString("Password");
-			String startDate = rs.getString("Start_Date");
-			String endDate = rs.getString("End_Date");
-			int pathologyId = rs.getInt("ID_Pathology");
-			String pathologyDescription = rs.getString("Description");
-			PatientwithPathology patient = new PatientwithPathology(CF, name, surname, email, password, "", startDate,endDate, pathologyId, pathologyDescription);
-			patientList.add(patient);
-		}
-
-		return patientList;
-	}
+	
 
 }
