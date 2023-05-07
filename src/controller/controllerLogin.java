@@ -92,6 +92,7 @@ public class controllerLogin implements Initializable {
 		// inizializzo il choice box con in due parametri interessati
 		String[] choice = { "Doctor", "Patient" };
 		choiceField.getItems().addAll(choice);
+		choiceField.getSelectionModel().selectFirst();
 
 		try {
 			model = Model.getInstance();

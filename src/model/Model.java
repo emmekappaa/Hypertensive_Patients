@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -543,6 +545,18 @@ public class Model {
 		return lista;
 	}
 	
+	public ObservableList<String> getAllSymptom() throws SQLException {
+
+		ObservableList<String> lista = FXCollections.observableArrayList();
+		String query = "SELECT * FROM symptom";
+		//log(query);
+		ResultSet rs = runQuery(query);
+		while (rs.next()) {
+			lista.add(rs.getString("ID"));
+		}
+		return lista;
+	}
+	
 	public List<String> getAvaiableDrugs(String cf) throws SQLException {
 
 		List<String> lista = FXCollections.observableArrayList();
@@ -556,9 +570,123 @@ public class Model {
 		return lista;
 	}
 	
+	public String getInfoDrug(String drug,String cf_patient) throws SQLException {
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+		LocalDateTime now = LocalDateTime.now();  
+		
+		String info = "";
+		String query = "SELECT * FROM therapy WHERE CF_Patient='"+cf_patient+"' and Status='ongoing' and ID_Drug='"+drug+"'";
+		
+		String query1 = "SELECT COUNT(*) FROM drugAssumptions WHERE Patient_ID='"+cf_patient+"' and Drug_ID='"+drug+"' and Date BETWEEN '"+dtf.format(now)+"' AND '"+dtf.format(now)+" 23:59:59"+"'";
+		//log(query1);
+		ResultSet rs = runQuery(query);
+		ResultSet rs1 = runQuery(query1);
+		
+		while (rs.next()) {
+			info += rs.getString("ID_Drug")+":\n";
+			info += "Assumption: "+rs.getString("Assumptions")+"\n";
+			info += "Quantity for assumption: "+rs.getString("Quantity")+" "+rs.getString("Indication")+"\n";
+			info += "\nDaily assumption: "+rs1.getString("COUNT(*)")+"/"+rs.getString("Assumptions");
+			
+		}
+		return info;
+	}
+	
+	public String getEmailDoctorByCF(String cf) throws SQLException{
+		
+		
+		String query = "SELECT Email FROM doctor WHERE CF='"+cf+"'";
+		//log(query);
+		String email = "mail@mail.com";
+		ResultSet rs = runQuery(query);
+		try {
+			//String stringa = rs.getString("avgData");
+			email = rs.getString("Email");
+		}
+		catch(Exception e) {
+			//System.out.println(e);
+		}
+		return email;
+	}
+	
+	public String getSurnameDoctorByCF(String cf) throws SQLException{
+		
+		
+		String query = "SELECT Surname FROM doctor WHERE CF='"+cf+"'";
+		//log(query);
+		String name = "mail@mail.com";
+		ResultSet rs = runQuery(query);
+		try {
+			//String stringa = rs.getString("avgData");
+			name = rs.getString("Surname");
+		}
+		catch(Exception e) {
+			//System.out.println(e);
+		}
+		return name;
+	}
+	
+	public int getBPM(String column,String CF,LocalDateTime now) throws SQLException{
+		
+		long average = 0;
+		LocalDateTime past = now.minusWeeks(4);
+		
+		String query = "SELECT AVG("+column+") as avgData FROM diagnosis WHERE CF_Patient='"+CF+"' and Date BETWEEN '"+past.toString()+"' and '"+now.toString()+"'";
+		//log(query);
+		ResultSet rs = runQuery(query);
+		try {
+			//String stringa = rs.getString("avgData");
+			average = rs.getInt("avgData");
+		}
+		catch(Exception e) {
+			//System.out.println(e);
+		}
+		
+		
+		//System.out.println(average);
+		return (int)average;
+	}
+	
+	
+	public String getIdDiagnosi(String cf,String date) throws SQLException {
+		
+		 
+		String query = "SELECT ID FROM diagnosis WHERE CF_Patient='"+cf+"' and Date='"+date+"'";
+		log(query);
+		@SuppressWarnings("unused")
+		ResultSet rs = runQuery(query);
+		while (rs.next()) {
+			return rs.getString("ID");
+		}
+		return "";
+	}
+	
+	public void insertSymptom(ObservableList<String> lista,String id) throws SQLException {
+		
+		for(String symptom : lista) {
+			try {
+				String query = "INSERT INTO diagnosisSymptoms (ID_Diagnosis, ID_Symptom) VALUES ("+id+", '"+symptom+"')";
+				log(query);
+				@SuppressWarnings("unused")
+				ResultSet rs = runQuery(query);
+			}
+			catch(Exception e) {}
+			
+		}
+		
+	}
+	
 	
 	public void insertTherapy(String idDoctor,String idPatient,String idDrug,String qnty,String Assumptions,String Indication) throws SQLException {
-		String query = "INSERT INTO therapy (CF_Patient, CF_Doctor, ID_Drug, Quantity, Assumptions, Indication, Status) VALUES ('"+idDoctor+"', '"+idPatient+"', '"+idDrug+"', "+qnty+", "+Assumptions+", '"+Indication+"', 'ongoing')";
+		String query = "INSERT INTO therapy (CF_Patient, CF_Doctor, ID_Drug, Quantity, Assumptions, Indication, Status) VALUES ('"+idPatient+"', '"+idDoctor+"', '"+idDrug+"', "+qnty+", "+Assumptions+", '"+Indication+"', 'ongoing')";
+		log(query);
+		@SuppressWarnings("unused")
+		ResultSet rs = runQuery(query);
+	}
+	
+	public void takeDrug(String idPatient,String idDrug,String date) throws SQLException {
+		String query = "INSERT INTO drugAssumptions (Patient_ID, Drug_ID, Date, Quantity) VALUES ('"+idPatient+"', '"+idDrug+"', '"+date+"', 1)";
 		log(query);
 		@SuppressWarnings("unused")
 		ResultSet rs = runQuery(query);
@@ -580,6 +708,15 @@ public class Model {
 		}
 		else {
 			query = "INSERT INTO patientPathology (ID_Pathology, CF_Patient, Start_Date, End_Date) VALUES ('"+id_pat+"', '"+cf+"', '"+start+"', '"+end+"')";		}
+		log(query);
+		@SuppressWarnings("unused")
+		ResultSet rs = runQuery(query);
+	}
+	
+	public void insertBPM(String cf,String DBP,String SBP,String data) throws SQLException {
+		
+		 
+		String query = "INSERT INTO diagnosis (CF_Patient, Date, SBP, DBP) VALUES ('"+cf+"', '"+data+"', "+SBP+", "+DBP+")";
 		log(query);
 		@SuppressWarnings("unused")
 		ResultSet rs = runQuery(query);

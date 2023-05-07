@@ -56,6 +56,9 @@ public class controllerDoctor implements Initializable {
 	private TableColumn<Patient, String> surname;
 	@FXML
 	private TableColumn<Patient, String> cf;
+	
+	@FXML
+	private TableColumn<Patient, String> hypertensiveColumn;
 
 	ObservableList<Patient> patients;
 
@@ -126,6 +129,7 @@ public class controllerDoctor implements Initializable {
 		name.setCellValueFactory(new PropertyValueFactory<>("Name"));
 		surname.setCellValueFactory(new PropertyValueFactory<>("Surname"));
 		email.setCellValueFactory(new PropertyValueFactory<>("Email"));
+		hypertensiveColumn.setCellValueFactory(new PropertyValueFactory<>("hypertension"));
 
 	}
 }

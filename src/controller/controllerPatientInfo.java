@@ -149,6 +149,9 @@ public class controllerPatientInfo implements Initializable {
 
 	@FXML
 	private Text statusLabel;
+	
+    @FXML
+    private Text hypertensionInfo;
 
 	private Patient infoPerson;
 	Session session = Session.getInstance();
@@ -282,8 +285,8 @@ public class controllerPatientInfo implements Initializable {
 
 			// diagnosisTable.clear();
 			diagnosisTable.setItems(symptom);
-			dateDiagnosis.setCellValueFactory(new PropertyValueFactory<>("ID"));
-			patologyDiagnosis.setCellValueFactory(new PropertyValueFactory<>("date"));
+			dateDiagnosis.setCellValueFactory(new PropertyValueFactory<>("date"));
+			patologyDiagnosis.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
 			// crea la serie dati del grafico
 			XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -455,17 +458,25 @@ public class controllerPatientInfo implements Initializable {
 
 		String[] choice = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 		assumptionChoice.getItems().addAll(choice);
+		assumptionChoice.getSelectionModel().selectFirst();
 
 		String[] choice1 = { "ongoing", "ended" };
 		statusChoice.getItems().addAll(choice1);
 		statusChoice.setVisible(false);
 		statusLabel.setVisible(false);
 
+		startDateChart.setValue(LocalDate.of(2000,1,1));
+		endDateChart.setValue(LocalDate.of(2040,1,1));
+		startPath.setValue(LocalDate.of(2010,1,1));
+
 		try {
 			model = Model.getInstance();
 			infoPerson = (Patient) model.retrieveInfoByCF(session.getCF_shmem(), "patient");
 			drugChoice.getItems().addAll(model.getAllDrugs());
+			drugChoice.getSelectionModel().selectFirst();
 			choicePatologies.getItems().addAll(model.getAllPathologies());
+			choicePatologies.getSelectionModel().selectFirst();
+			hypertensionInfo.setText(infoPerson.getHypertension());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

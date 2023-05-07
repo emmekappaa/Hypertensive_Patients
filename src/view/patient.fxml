@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -41,6 +41,7 @@
                         <Font size="36.0" />
                      </font>
                   </Text>
+                  <Button fx:id="emailDoctor" layoutX="50.0" layoutY="298.0" mnemonicParsing="false" onAction="#emailDoctor_clicked" text="Email Doctor" />
                     </children></AnchorPane>
             </content>
         </Tab>
@@ -49,7 +50,6 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
                         <Button fx:id="submitBPM" layoutX="83.0" layoutY="262.0" mnemonicParsing="false" onAction="#submitBPM_clicked" prefHeight="38.0" prefWidth="77.0" text="SUBMIT" />
-                  <CheckBox layoutX="278.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" />
                   <TextArea fx:id="sbpField" layoutX="91.0" layoutY="96.0" prefHeight="12.0" prefWidth="82.0">
                      <font>
                         <Font size="8.0" />
@@ -62,35 +62,13 @@
                      </font>
                   </TextArea>
                   <Label layoutX="60.0" layoutY="159.0" text="DBP" />
-                  <Label layoutX="251.0" layoutY="25.0" text="Symptom:" />
-                  <CheckBox layoutX="382.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="479.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="278.0" layoutY="92.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="382.0" layoutY="92.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="479.0" layoutY="92.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="278.0" layoutY="126.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="382.0" layoutY="126.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="479.0" layoutY="126.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="278.0" layoutY="159.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="382.0" layoutY="159.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="479.0" layoutY="159.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="479.0" layoutY="193.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="382.0" layoutY="193.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="278.0" layoutY="193.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="278.0" layoutY="230.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="382.0" layoutY="230.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="479.0" layoutY="230.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="278.0" layoutY="264.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="382.0" layoutY="264.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="479.0" layoutY="264.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="278.0" layoutY="298.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="382.0" layoutY="298.0" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox layoutX="479.0" layoutY="298.0" mnemonicParsing="false" text="CheckBox" />
+                  <Label layoutX="263.0" layoutY="69.0" text="Symptom:" />
                   <Label layoutX="29.0" layoutY="34.0" text="Record your BPM">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
+                  <ListView fx:id="symptomList" layoutX="290.0" layoutY="93.0" prefHeight="214.0" prefWidth="251.0" />
                     </children>
                 </AnchorPane>
             </content>
@@ -99,7 +77,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <Button fx:id="takeDrugs" layoutX="147.0" layoutY="208.0" mnemonicParsing="false" onAction="#takeDrugs_clicked" text="Take it" />
+                        <Button fx:id="takeDrugs" layoutX="447.0" layoutY="255.0" mnemonicParsing="false" onAction="#takeDrugs_clicked" text="Take it" />
                         <Label layoutX="63.0" layoutY="96.0" text="Choose Drug">
                      <font>
                         <Font size="19.0" />
@@ -110,6 +88,8 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
+                  <Button fx:id="infoDrug" layoutX="70.0" layoutY="159.0" mnemonicParsing="false" onAction="#infoDrug_clicked" text="Info Drug" />
+                  <TextArea fx:id="infoDrugArea" editable="false" layoutX="73.0" layoutY="197.0" prefHeight="141.0" prefWidth="277.0" />
                     </children>
                 </AnchorPane>
             </content>

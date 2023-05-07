@@ -57,9 +57,10 @@
                   <TableView fx:id="tablePatient" layoutX="52.0" layoutY="105.0" prefHeight="185.0" prefWidth="495.0">
                      <columns>
                         <TableColumn fx:id="cf" prefWidth="113.99999237060547" text="Tax ID Code" />
-                        <TableColumn fx:id="name" prefWidth="99.2000732421875" text="Name" />
-                        <TableColumn fx:id="surname" prefWidth="111.59991455078125" text="Surname" />
-                        <TableColumn fx:id="email" prefWidth="168.8000061035156" text="Email" />
+                        <TableColumn fx:id="name" prefWidth="92.00006103515625" text="Name" />
+                        <TableColumn fx:id="surname" prefWidth="109.99993896484375" text="Surname" />
+                        <TableColumn fx:id="email" prefWidth="84.4000244140625" text="Email" />
+                        <TableColumn fx:id="hypertensiveColumn" prefWidth="92.39993286132812" text="Hypertensive" />
                      </columns>
                   </TableView>
                     </children>
