@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: violet;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerLogin">
+   <children>
+      <TextField fx:id="usernameField" layoutX="209.0" layoutY="161.0" prefHeight="20.0" prefWidth="182.0" />
+      <TextField fx:id="paswordField" layoutX="209.0" layoutY="217.0" prefHeight="20.0" prefWidth="182.0" />
+      <Text layoutX="106.0" layoutY="89.0" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="Hypertensive Patients" wrappingWidth="438.2975158691406">
+         <font>
+            <Font name="Constantia" size="39.0" />
+         </font>
+      </Text>
+      <ChoiceBox fx:id="choiceField" layoutX="225.0" layoutY="264.0" prefWidth="150.0" style="-fx-background-color: green;" />
+      <Text layoutX="209.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="84.7210693359375" />
+      <Text layoutX="209.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail:" wrappingWidth="66.8909912109375" />
+      <Button fx:id="loginButton" layoutX="274.0" layoutY="312.0" mnemonicParsing="false" onAction="#loginButtonClicked" text="LOGIN" textAlignment="CENTER" textFill="#9e09d4">
+         <effect>
+            <Glow />
+         </effect>
+      </Button>
+   </children>
+</Pane>

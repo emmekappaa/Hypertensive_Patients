@@ -4,7 +4,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.URL;	
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -228,6 +228,14 @@ public class controllerPatient implements Initializable{
         	alert1.setContentText("Remember to take 'em!");
             // show the dialog
         	alert1.show();
+    	}
+
+		//aggiorno infoBox
+    	try {
+    		infoDrugArea.setText(model.getInfoDrug(choiceDrug.getValue(),infoPerson.getCF()));
+    	}
+    	catch(Exception e) {
+    		System.out.println("Select drug first!");
     	}
     	
     	alertInput.setAlertType(AlertType.ERROR);

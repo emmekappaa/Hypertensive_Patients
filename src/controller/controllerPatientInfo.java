@@ -353,6 +353,8 @@ public class controllerPatientInfo implements Initializable {
 		String end = null;
 		
 		
+		
+		
 		try {
 			end = endPath.getValue().toString();
 		} catch (Exception e) {
@@ -393,7 +395,8 @@ public class controllerPatientInfo implements Initializable {
 
 	@FXML
 	void insertTerapyButton_clicked(ActionEvent event) {
-
+		
+		//Therapy th = therapiesTable.getSelectionModel().getSelectedItem();
 		
 		if(!quantity.getText().isEmpty() && !description.getText().isEmpty()){
 			String CF_doctor = (String) infoPerson.getCF_doctor();
@@ -414,19 +417,24 @@ public class controllerPatientInfo implements Initializable {
 				
 				
 				therapiesTable.getItems()
-						.add(new Therapy(1, CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, statusChoice.getValue()));
+						.add(new Therapy(th.getID(), CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, statusChoice.getValue()));
 				ObservableList<Therapy> allTh, singleTh;
 				allTh = therapiesTable.getItems();
 				singleTh = therapiesTable.getSelectionModel().getSelectedItems();
 				singleTh.forEach(allTh::remove);
 			} else {
 				try {
-					model.insertTherapy(infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),
-							quantity.getText(), (String) assumptionChoice.getValue(), description.getText());
+					model.insertTherapy(infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),quantity.getText(), (String) assumptionChoice.getValue(), description.getText());
 				} catch (SQLException e) {
 				}
-				therapiesTable.getItems()
-						.add(new Therapy(1, CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, "ongoing"));
+				//bro si, lascia questi due try catch
+				try {
+					therapiesTable.getItems().add(new Therapy(model.getIDtherapyByAll(infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),quantity.getText(), (String) assumptionChoice.getValue(), description.getText()), CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, "ongoing"));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 
 			if (modify == true) {
@@ -440,6 +448,17 @@ public class controllerPatientInfo implements Initializable {
 			}
 
 			clearTherapiesField();
+			try {
+				if(model.checkFollowPatient(infoPerson.getCF())){
+					drugThearpy.setText("followed");
+				}
+				else{
+					drugThearpy.setText("not followed");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else {
 			alertInput.setTitle("Error Input");
@@ -543,7 +562,7 @@ public class controllerPatientInfo implements Initializable {
 
 	private void clearTherapiesField() {
 		drugChoice.valueProperty().set(null);
-		assumptionChoice.valueProperty().set(null);
+		assumptionChoice.getSelectionModel().selectFirst();
 		therapiesTable.getSelectionModel().clearSelection(-1);
 		quantity.clear();
 		description.clear();
@@ -552,7 +571,7 @@ public class controllerPatientInfo implements Initializable {
 	private void clearTherapiesField1() {
 		startPath.valueProperty().set(null);
 		endPath.valueProperty().set(null);
-		choicePatologies.valueProperty().set(null);
+		choicePatologies.getSelectionModel().selectFirst();
 	}
 
 	private void setTablePath() {

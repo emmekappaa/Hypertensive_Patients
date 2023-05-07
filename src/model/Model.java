@@ -469,6 +469,13 @@ public class Model {
 		return list;
 	}
 	
+	public int getIDtherapyByAll(String idDoctor,String idPatient,String idDrug,String qnty,String Assumptions,String Indication) throws SQLException {
+		String query = "SELECT ID FROM therapy WHERE CF_Patient='"+idPatient+"' and CF_Doctor='"+idDoctor+"' and ID_Drug='"+idDrug+"' and Quantity="+qnty+" and Assumptions="+Assumptions+" and Indication='"+Indication+"' and Status='ongoing'";
+		log(query);
+		ResultSet rs = runQuery(query);
+		return rs.getInt("ID");
+	}
+	
 	public String getCfDoctorByCfPatient(String patientCF) throws SQLException {
 
 		String query = "SELECT CF_doctor FROM patient WHERE CF ='" + patientCF + "'";
