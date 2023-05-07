@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -20,12 +21,14 @@ import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -152,6 +155,9 @@ public class controllerPatientInfo implements Initializable {
 	
     @FXML
     private Text hypertensionInfo;
+    
+    @FXML
+    private Text drugThearpy;
 
 	private Patient infoPerson;
 	Session session = Session.getInstance();
@@ -207,7 +213,7 @@ public class controllerPatientInfo implements Initializable {
 	@FXML
 	void showDataChart_clicked(ActionEvent event) {
 		
-		graficoooooo();
+		showLineChart();
 	}
 
 	@FXML
@@ -254,12 +260,16 @@ public class controllerPatientInfo implements Initializable {
 				statusLabel.setVisible(false);
 
 			}
-			System.out.println("Devi selezionare una riga da modificare!");
+			alertInput.setTitle("Error Input");
+    		alertInput.setHeaderText("You need to select a row first from the table");
+            // show the dialog
+    		alertInput.show();
+			//System.out.println("Devi selezionare una riga da modificare!");
 		}
 	}
 	
 	@SuppressWarnings({ "unlikely-arg-type", "unchecked" })
-	private void graficoooooo() {
+	private void showLineChart() {
 		try {
 			String inizio = "2000-01-01";
 			String fine = "2040-01-01";
@@ -384,50 +394,60 @@ public class controllerPatientInfo implements Initializable {
 	@FXML
 	void insertTerapyButton_clicked(ActionEvent event) {
 
-		String CF_doctor = (String) infoPerson.getCF_doctor();
-		String CF_patient = session.getCF_shmem();
-		String Drug = drugChoice.getValue();
-		Integer Quantity = Integer.parseInt(quantity.getText());
-		Integer Assumption = Integer.parseInt(assumptionChoice.getValue());
-		String Indication = description.getText();
+		
+		if(!quantity.getText().isEmpty() && !description.getText().isEmpty()){
+			String CF_doctor = (String) infoPerson.getCF_doctor();
+			String CF_patient = session.getCF_shmem();
+			String Drug = drugChoice.getValue();
+			Integer Quantity = Integer.parseInt(quantity.getText());
+			Integer Assumption = Integer.parseInt(assumptionChoice.getValue());
+			String Indication = description.getText();
 
-		if (modify == true) {
+			if (modify == true) {
 
-			Therapy th = therapiesTable.getSelectionModel().getSelectedItem();
-			try {
-				model.updateTherapy(th.getID(), infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),
-						quantity.getText(), (String) assumptionChoice.getValue(), description.getText(),statusChoice.getValue());
-			} catch (SQLException e) {
+				Therapy th = therapiesTable.getSelectionModel().getSelectedItem();
+				try {
+					model.updateTherapy(th.getID(), infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),
+							quantity.getText(), (String) assumptionChoice.getValue(), description.getText(),statusChoice.getValue());
+				} catch (SQLException e) {
+				}
+				
+				
+				therapiesTable.getItems()
+						.add(new Therapy(1, CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, statusChoice.getValue()));
+				ObservableList<Therapy> allTh, singleTh;
+				allTh = therapiesTable.getItems();
+				singleTh = therapiesTable.getSelectionModel().getSelectedItems();
+				singleTh.forEach(allTh::remove);
+			} else {
+				try {
+					model.insertTherapy(infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),
+							quantity.getText(), (String) assumptionChoice.getValue(), description.getText());
+				} catch (SQLException e) {
+				}
+				therapiesTable.getItems()
+						.add(new Therapy(1, CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, "ongoing"));
 			}
-			
-			
-			therapiesTable.getItems()
-					.add(new Therapy(1, CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, statusChoice.getValue()));
-			ObservableList<Therapy> allTh, singleTh;
-			allTh = therapiesTable.getItems();
-			singleTh = therapiesTable.getSelectionModel().getSelectedItems();
-			singleTh.forEach(allTh::remove);
-		} else {
-			try {
-				model.insertTherapy(infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),
-						quantity.getText(), (String) assumptionChoice.getValue(), description.getText());
-			} catch (SQLException e) {
+
+			if (modify == true) {
+				modify = false;
 			}
-			therapiesTable.getItems()
-					.add(new Therapy(1, CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, "ongoing"));
-		}
+			if (modify == false) {
+				insertTerapyButton.setText("Insert therapy");
+				modifyTherapy.setText("Modify");
+				statusChoice.setVisible(false);
+				statusLabel.setVisible(false);
+			}
 
-		if (modify == true) {
-			modify = false;
+			clearTherapiesField();
 		}
-		if (modify == false) {
-			insertTerapyButton.setText("Insert therapy");
-			modifyTherapy.setText("Modify");
-			statusChoice.setVisible(false);
-			statusLabel.setVisible(false);
+		else {
+			alertInput.setTitle("Error Input");
+    		alertInput.setHeaderText("You need to fill all the fields before!");
+            // show the dialog
+    		alertInput.show();
 		}
-
-		clearTherapiesField();
+		
 
 		// aggiorna tabella terapia
 	}
@@ -435,24 +455,41 @@ public class controllerPatientInfo implements Initializable {
 	@FXML
 	void addInfo_clicked(ActionEvent event) {
 
-		String CF_doctor = (String) infoPerson.getCF_doctor();
-		String infoText = descriptionInfo.getText();
-
-		try {
-			model.insertGenericInfo(infoPerson.getCF_doctor(), session.getCF_shmem(), descriptionInfo.getText());
-			// model.insertTherapy(model.getCfDoctorByCfPatient(session.getCF_shmem()),session.getCF_shmem(),"1",quantity.getText(),(String)
-			// assumptionChoice.getValue(),description.getText());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		if(!descriptionInfo.getText().isEmpty()) {
+			String CF_doctor = (String) infoPerson.getCF_doctor();
+			String infoText = descriptionInfo.getText();
+	
+			try {
+				model.insertGenericInfo(infoPerson.getCF_doctor(), session.getCF_shmem(), descriptionInfo.getText());
+				// model.insertTherapy(model.getCfDoctorByCfPatient(session.getCF_shmem()),session.getCF_shmem(),"1",quantity.getText(),(String)
+				// assumptionChoice.getValue(),description.getText());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+			}
+			
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+			LocalDateTime now = LocalDateTime.now();  
+			
+			infoTable.getItems().add(new Info(CF_doctor, infoText, dtf.format(now).toString()));
+	
+			descriptionInfo.clear();
 		}
-		infoTable.getItems().add(new Info(CF_doctor, infoText, java.time.LocalDate.now().toString()));
-
-		descriptionInfo.clear();
+		else {
+			alertInput.setTitle("Error Input");
+    		alertInput.setHeaderText("Please fill info fields!");
+            // show the dialog
+    		alertInput.show();
+		}
 
 	}
+	
+	Alert alertInput;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		alertInput = new  Alert(AlertType.NONE);
+		alertInput.setAlertType(AlertType.ERROR);
 
 		// System.out.println(session.getCF_shmem());
 
@@ -468,6 +505,8 @@ public class controllerPatientInfo implements Initializable {
 		startDateChart.setValue(LocalDate.of(2000,1,1));
 		endDateChart.setValue(LocalDate.of(2040,1,1));
 		startPath.setValue(LocalDate.of(2010,1,1));
+		
+		
 
 		try {
 			model = Model.getInstance();
@@ -477,6 +516,9 @@ public class controllerPatientInfo implements Initializable {
 			choicePatologies.getItems().addAll(model.getAllPathologies());
 			choicePatologies.getSelectionModel().selectFirst();
 			hypertensionInfo.setText(infoPerson.getHypertension());
+			if(model.checkFollowPatient(infoPerson.getCF())){
+				drugThearpy.setText("followed");
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -495,13 +537,14 @@ public class controllerPatientInfo implements Initializable {
 			}
 		});
 		
-		graficoooooo();
+		showLineChart();
 
 	}
 
 	private void clearTherapiesField() {
 		drugChoice.valueProperty().set(null);
 		assumptionChoice.valueProperty().set(null);
+		therapiesTable.getSelectionModel().clearSelection(-1);
 		quantity.clear();
 		description.clear();
 	}

@@ -88,7 +88,6 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button fx:id="infoDrug" layoutX="70.0" layoutY="159.0" mnemonicParsing="false" onAction="#infoDrug_clicked" text="Info Drug" />
                   <TextArea fx:id="infoDrugArea" editable="false" layoutX="73.0" layoutY="197.0" prefHeight="141.0" prefWidth="277.0" />
                     </children>
                 </AnchorPane>

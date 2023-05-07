@@ -434,12 +434,12 @@ public class Model {
 	public ObservableList<Info> getPatientInfos(String CF) throws SQLException {
 		
 		ObservableList<Info> list = FXCollections.observableArrayList();
-		String query = "SELECT * FROM patientDoctor WHERE CF_Patient ='" + CF + "'";
+		String query = "SELECT * FROM patientDoctor INNER JOIN doctor ON patientDoctor.CF_Doctor=doctor.CF WHERE CF_Patient ='" + CF + "'";
 		log(query);
 		ResultSet rs = runQuery(query);
 
 		while (rs.next()) {
-			String CF_Doctor = rs.getString("CF_Doctor");
+			String CF_Doctor = rs.getString("Surname");
 			String infoText = rs.getString("Info");
 			String infoDate = rs.getString("Info_Date");
 			
@@ -627,6 +627,74 @@ public class Model {
 		return name;
 	}
 	
+	public boolean checkFollowPatient(String cf) throws SQLException {
+		LocalDateTime now = LocalDateTime.now();  
+		
+		LocalDateTime d1 = now.minusDays(1);
+		LocalDateTime d2 = now.minusDays(2);
+		LocalDateTime d3 = now.minusDays(2);
+		
+		if(getDrugToBeTaken(cf,d1).isEmpty() && getDrugToBeTaken(cf,d2).isEmpty() && getDrugToBeTaken(cf,d3).isEmpty())
+			return true;
+			
+		return false;
+	}
+	
+	public ArrayList<Drug> getDrugToBeTaken(String cf,LocalDateTime date) throws SQLException{
+		
+		
+		ArrayList<Drug> listaAssumption = new ArrayList<>();
+		
+		HashMap<String, Integer> listDrug = new HashMap<String, Integer>();
+		HashMap<String, Integer> listDrugTaken = new HashMap<String, Integer>();
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDateTime now = null;
+		if(date==null) {
+			now = LocalDateTime.now(); 
+		}
+		else {
+			now = date;
+		}
+		
+		
+		String query = "SELECT DISTINCT ID_Drug as drug, Assumptions as qty From therapy WHERE CF_Patient='"+cf+"' and Status='ongoing'";
+		ResultSet rs = runQuery(query);
+		//log(query);
+		String query1 = "SELECT Drug_ID as drug,sum(Quantity) as qty FROM drugAssumptions WHERE Patient_ID='"+cf+"' and Date BETWEEN '"+dtf.format(now)+"' and '"+dtf.format(now)+" 23:59:59' GROUP BY Drug_ID";
+		//log(query1);
+		ResultSet rs1 = runQuery(query1);
+		
+		//popolo hasmap con medicine che dovrei prendere giornalmente
+		while (rs.next()) {
+			listDrug.put(rs.getString("drug"),rs.getInt("qty"));
+		}
+		
+		while (rs1.next()) {
+			listDrugTaken.put(rs1.getString("drug"),rs1.getInt("qty"));
+			//System.out.println(rs1.getString("drug"));
+			//System.out.println(rs1.getString("qty"));
+		}
+		
+		for(String s : listDrug.keySet()) {
+			
+			if(listDrugTaken.get(s)!=null) {
+				if(listDrug.get(s)-listDrugTaken.get(s)>0){ //se devo ancora prendere altre assunzioni di questo medicinale
+					listaAssumption.add(new Drug(listDrugTaken.get(s),listDrug.get(s)-listDrugTaken.get(s),s));
+					//System.out.println("qu");
+				}
+				
+				//System.out.println("q");
+			}
+			else {
+				listaAssumption.add(new Drug(0,listDrug.get(s),s)); //aggiungo medicina mai presa di oggi
+				//System.out.println("qua");
+			}
+			
+		}
+		return listaAssumption;
+	}
+	
 	public int getBPM(String column,String CF,LocalDateTime now) throws SQLException{
 		
 		long average = 0;
@@ -739,7 +807,11 @@ public class Model {
 	}
 	
 	public void insertGenericInfo(String idDoctor,String idPatient, String info) throws SQLException {
-		String query = "INSERT INTO patientDoctor (CF_Doctor, CF_Patient, Info_Date, Info) VALUES ('"+idDoctor+"', '"+idPatient+"','"+java.time.LocalDate.now()+"', '"+info+"')";
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now();  
+		
+		String query = "INSERT INTO patientDoctor (CF_Doctor, CF_Patient, Info_Date, Info) VALUES ('"+idDoctor+"', '"+idPatient+"','"+dtf.format(now)+"', '"+info+"')";
 		log(query);
 		@SuppressWarnings("unused")
 		ResultSet rs = runQuery(query);

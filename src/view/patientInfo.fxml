@@ -71,6 +71,16 @@
                         <Font name="Tahoma" size="18.0" />
                      </font>
                   </Text>
+                  <Text fontSmoothingType="LCD" layoutX="35.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drug therapy: ">
+                     <font>
+                        <Font name="Tahoma" size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="drugThearpy" fontSmoothingType="LCD" layoutX="149.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="not followed" wrappingWidth="103.79570007324219">
+                     <font>
+                        <Font name="Tahoma" size="18.0" />
+                     </font>
+                  </Text>
                </children>
                 </AnchorPane>
             </content>

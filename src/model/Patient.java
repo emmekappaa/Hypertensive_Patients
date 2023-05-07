@@ -47,18 +47,18 @@ public class Patient extends User {
 			data = "No data";
 		}
 		else if((SBP<120) && (DBP<80)) {
-			data = "Grade 1";
+			data = "Optimal";
 		}
 		else if((SBP<130) && (DBP<85)) {
+			data = "Normal";
+		}
+		else if((SBP>=130 && SBP<=140) && (DBP>=85 && DBP<=90)) {
+			data = "Normal high";
+		}
+		else if((SBP>=140 && SBP<=160) && (DBP>=90 && DBP<=100)) {
 			data = "Grade 1";
 		}
-		else if((SBP>=130 && SBP<=139) && (DBP>=85 && DBP<=89)) {
-			data = "Grade 1";
-		}
-		else if((SBP>=140 && SBP<=159) && (DBP>=90 && DBP<=99)) {
-			data = "Grade 1";
-		}
-		else if((SBP>=160 && SBP<=179) && (DBP>=100 && DBP<=109)) {
+		else if((SBP>=160 && SBP<=180) && (DBP>=100 && DBP<=110)) {
 			data = "Grade 2";
 		}
 		else if((SBP>=180) && (DBP>=110)) {

@@ -11,10 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -106,13 +108,23 @@ public class controllerDoctor implements Initializable {
 		} 
 		else 
 		{
-			System.out.println("Paziente non trovato!!"); //deve diventare alert, a me non trova la classe
+			//System.out.println("Paziente non trovato!!"); //deve diventare alert, a me non trova la classe
+			alertInput.setTitle("Error Query");
+    		alertInput.setHeaderText("Patient not found!");
+            // show the dialog
+    		alertInput.show();
 		}
 
 	}
 
+	Alert alertInput;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		alertInput = new  Alert(AlertType.NONE);
+		alertInput.setAlertType(AlertType.ERROR);
+		
 		try {
 			model = Model.getInstance();
 			infoPerson = (Doctor) model.retrieveInfoByEmail(session.getMail(), "doctor");

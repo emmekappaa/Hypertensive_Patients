@@ -8,8 +8,11 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +29,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Drug;
 import model.Model;
 import model.Patient;
 
@@ -57,10 +61,7 @@ public class controllerPatient implements Initializable{
     
     @FXML
     private TextArea infoDrugArea;
-    
-    @FXML
-    private Button infoDrug;
-    
+
 
     @FXML
     private Button emailDoctor;
@@ -71,7 +72,8 @@ public class controllerPatient implements Initializable{
     private ListView<String> symptomList;
     
     // create a alert
-    Alert alert1;
+    Alert alert1; //per le medicine
+    Alert alertInput;
     
     ObservableList<String> symptoms;
     
@@ -90,54 +92,49 @@ public class controllerPatient implements Initializable{
 
     @FXML
     void submitBPM_clicked(ActionEvent event) {
-    	ObservableList<String> listone = symptomList.getSelectionModel().getSelectedItems();
-    	ObservableList<String> listoneWithoutduplicate =  FXCollections.observableArrayList();
     	
-    	//filtro i duplicati
-    	for(String s : listone) {
-    		if(!listoneWithoutduplicate.contains(s)) {
-    			listoneWithoutduplicate.add(s);
-    		}
-    	}
-    	
-    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
-		LocalDateTime now = LocalDateTime.now();  
-		String data = dtf.format(now);
-    	
-    	try {
-			model.insertBPM(infoPerson.getCF(),dbpField.getText(),sbpField.getText(),data);
-		} catch (SQLException e) {
-		}
-    	
-    	
-    	if(!listoneWithoutduplicate.isEmpty()) {
-			try {
-				model.insertSymptom(listoneWithoutduplicate,model.getIdDiagnosi(infoPerson.getCF(),data));
+    	if(!dbpField.getText().isEmpty() && !sbpField.getText().isEmpty()) {
+	    	ObservableList<String> listone = symptomList.getSelectionModel().getSelectedItems();
+	    	ObservableList<String> listoneWithoutduplicate =  FXCollections.observableArrayList();
+	    	
+	    	//filtro i duplicati
+	    	for(String s : listone) {
+	    		if(!listoneWithoutduplicate.contains(s)) {
+	    			listoneWithoutduplicate.add(s);
+	    		}
+	    	}
+	    	
+	    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+			LocalDateTime now = LocalDateTime.now();  
+			String data = dtf.format(now);
+	    	
+	    	try {
+				model.insertBPM(infoPerson.getCF(),dbpField.getText(),sbpField.getText(),data);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-		}
-		
-    	dbpField.clear();
-    	sbpField.clear();
-    	symptomList.getSelectionModel().clearSelection();
-    	
-
-    }
-    
-    
-
-    @FXML
-    void infoDrug_clicked(ActionEvent event) {
-    	try {
-    		infoDrugArea.setText(model.getInfoDrug(choiceDrug.getValue(),infoPerson.getCF()));
+	    	
+	    	
+	    	if(!listoneWithoutduplicate.isEmpty()) {
+				try {
+					model.insertSymptom(listoneWithoutduplicate,model.getIdDiagnosi(infoPerson.getCF(),data));
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
+			}
+			
+	    	dbpField.clear();
+	    	sbpField.clear();
+	    	symptomList.getSelectionModel().clearSelection();
     	}
-    	catch(Exception e) {
-    		System.out.println("Select drug first!");
+    	else {
+    		alertInput.setTitle("Error insert BPM");
+    		alertInput.setHeaderText("Missing parameters (SDB/DBP)");
+            // show the dialog
+    		alertInput.show();
     	}
+	    	
     }
-    
 
 
 
@@ -149,6 +146,14 @@ public class controllerPatient implements Initializable{
 			model.takeDrug(infoPerson.getCF(), choiceDrug.getValue(), dtf.format(now));
 		}
     	catch (SQLException e) {}
+    	
+    	//aggiorno infoBox
+    	try {
+    		infoDrugArea.setText(model.getInfoDrug(choiceDrug.getValue(),infoPerson.getCF()));
+    	}
+    	catch(Exception e) {
+    		System.out.println("Select drug first!");
+    	}
     }
     
     private Patient infoPerson;
@@ -172,21 +177,29 @@ public class controllerPatient implements Initializable{
    	public void initialize(URL arg0, ResourceBundle arg1) {
     	
     	alert1 = new  Alert(AlertType.NONE);
+    	alertInput = new  Alert(AlertType.NONE);
+    	ArrayList<Drug> lista = null;
     	
-    	if(true) {
-    		// set alert type
-        	alert1.setAlertType(AlertType.CONFIRMATION);
-        	alert1.setTitle("Drug Reminder");
-        	alert1.setHeaderText("This is a Custom Confirmation Dialog");
-        	alert1.setContentText("Remember to take 'em");
-            // show the dialog
-        	alert1.show();
-    	}
-    	
+    	choiceDrug.getSelectionModel().selectedIndexProperty().addListener(new
+    			ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+				// TODO Auto-generated method stub
+				//aggiorno infoBox
+		    	try {
+		    		infoDrugArea.setText(model.getInfoDrug(choiceDrug.getValue(),infoPerson.getCF()));
+		    	}
+		    	catch(Exception e) {
+		    		System.out.println("Select drug first!");
+		    	}
+			}
+    	});
     	
     	try {
 			model = Model.getInstance();
 			infoPerson = (Patient)model.retrieveInfoByEmail(session.getMail(),"patient");
+			lista = model.getDrugToBeTaken(infoPerson.getCF(),null);
 			choiceDrug.getItems().addAll(model.getAvaiableDrugs(infoPerson.getCF()));
 			choiceDrug.getSelectionModel().selectFirst();
 			symptoms = model.getAllSymptom();
@@ -194,9 +207,31 @@ public class controllerPatient implements Initializable{
 			symptomList.setItems(symptoms);
 	    	namePatient1.setText(model.getSurnameDoctorByCF(infoPerson.getCF_doctor()));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
+    	for(Drug s: lista) {
+    		System.out.println(s.getDescription());
+    	}
+    	if(!lista.isEmpty()) {
+    		
+    		String testoAlert = "Drug to be taken:";
+    		for(Drug d : lista) {
+    			testoAlert += "\n";
+    			testoAlert += " - "+d.getDescription();
+    		}
+    		
+    		// set alert type
+        	alert1.setAlertType(AlertType.CONFIRMATION);
+        	alert1.setTitle("Drug Reminder");
+        	alert1.setHeaderText(testoAlert);
+        	alert1.setContentText("Remember to take 'em!");
+            // show the dialog
+        	alert1.show();
+    	}
+    	
+    	alertInput.setAlertType(AlertType.ERROR);
+    	
     	namePatient.setText(infoPerson.getName());
     	
    	}
