@@ -40,13 +40,13 @@
             <Image url="@../images/field.png" />
          </image>
       </ImageView>
-      <TextField fx:id="usernameField" cacheShape="false" centerShape="false" layoutX="329.0" layoutY="159.0" prefHeight="25.0" prefWidth="182.0" scaleShape="false" style="-fx-background-color: trasparent; -fx-border-radius: 50px;" />
+      <TextField fx:id="usernameField" cacheShape="false" centerShape="false" layoutX="329.0" layoutY="159.0" prefHeight="25.0" prefWidth="182.0" scaleShape="false" style="-fx-background-color: transparent; -fx-border-radius: 50px;" />
       <ImageView fitHeight="29.0" fitWidth="218.0" layoutX="311.0" layoutY="216.0" opacity="0.46" pickOnBounds="true">
          <image>
             <Image url="@../images/field.png" />
          </image>
       </ImageView>
-      <TextField fx:id="paswordField" layoutX="328.0" layoutY="218.0" prefHeight="20.0" prefWidth="182.0" style="-fx-background-color: trasparent;" />
+      <TextField fx:id="paswordField" layoutX="328.0" layoutY="218.0" prefHeight="20.0" prefWidth="182.0" style="-fx-background-color: transparent;" />
       <Text layoutX="225.0" layoutY="44.0" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="150.0">
          <font>
             <Font name="Constantia" size="15.0" />
@@ -66,7 +66,7 @@
             <Image url="@../images/logo_bianco.png" />
          </image>
       </ImageView>
-      <Button fx:id="loginButton" layoutX="352.0" layoutY="306.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="42.0" prefWidth="122.0" style="-fx-background-color: trasparent;" textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+      <Button fx:id="loginButton" layoutX="352.0" layoutY="306.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="42.0" prefWidth="122.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
          <effect>
             <Glow />
          </effect>

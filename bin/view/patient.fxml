@@ -114,7 +114,7 @@
                         <Image url="@../images/field.png" />
                      </image>
                   </ImageView>
-                  <TextArea fx:id="sbpField" layoutX="112.0" layoutY="134.0" prefHeight="12.0" prefWidth="82.0" style="-fx-background-color: trasparent;">
+                  <TextArea fx:id="sbpField" layoutX="112.0" layoutY="134.0" prefHeight="12.0" prefWidth="82.0" style="-fx-background-color: transparent;">
                      <font>
                         <Font size="8.0" />
                      </font>
@@ -128,7 +128,7 @@
                         <Image url="@../images/field.png" />
                      </image>
                   </ImageView>
-                  <TextArea fx:id="dbpField" layoutX="112.0" layoutY="201.0" prefHeight="12.0" prefWidth="82.0" style="-fx-background-color: trasparent;">
+                  <TextArea fx:id="dbpField" layoutX="112.0" layoutY="201.0" prefHeight="12.0" prefWidth="82.0" style="-fx-background-color: transparent;">
                      <font>
                         <Font size="8.0" />
                      </font>
@@ -188,7 +188,7 @@
                         <Image url="@../images/tkdrg.png" />
                      </image>
                   </ImageView>
-                        <Button fx:id="takeDrugs" layoutX="414.0" layoutY="274.0" mnemonicParsing="false" onAction="#takeDrugs_clicked" style="-fx-background-color: trasparent;">
+                        <Button fx:id="takeDrugs" layoutX="414.0" layoutY="274.0" mnemonicParsing="false" onAction="#takeDrugs_clicked" style="-fx-background-color: transparent;">
                      <graphic>
                         <ImageView fitHeight="68.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
                            <image>

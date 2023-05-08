@@ -20,7 +20,7 @@
     <tabs>
         <Tab style="-fx-background-color: #2540b0;">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="445.0" prefWidth="600.0" style="-fx-background-image: &quot;background.png&quot;;">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="445.0" prefWidth="600.0" style="-fx-background-image: url('background.png');">
                <children>
                   <ImageView fitHeight="406.0" fitWidth="698.0" layoutX="-21.0" layoutY="-17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -70,7 +70,7 @@
                         <Image url="@../images/box.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="exit" defaultButton="true" ellipsisString="100" layoutX="522.0" layoutY="18.0" mnemonicParsing="false" onAction="#exitClicked" prefHeight="46.0" prefWidth="40.0" style="-fx-background-color: trasparent;" textFill="WHITE">
+                  <Button fx:id="exit" defaultButton="true" ellipsisString="100" layoutX="522.0" layoutY="18.0" mnemonicParsing="false" onAction="#exitClicked" prefHeight="46.0" prefWidth="40.0" style="-fx-background-color: transparent;" textFill="WHITE">
                      <font>
                         <Font name="Georgia" size="12.0" />
                      </font>
@@ -120,8 +120,8 @@
                         <Image url="@../images/field.png" />
                      </image>
                   </ImageView>
-                        <TextField fx:id="finderTextArea" layoutX="54.0" layoutY="319.0" style="-fx-background-color: trasparent;" />
-                        <Button fx:id="findButton" layoutX="497.0" layoutY="305.0" mnemonicParsing="false" onAction="#findClicked" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: trasparent;">
+                        <TextField fx:id="finderTextArea" layoutX="54.0" layoutY="319.0" style="-fx-background-color: transparent;" />
+                        <Button fx:id="findButton" layoutX="497.0" layoutY="305.0" mnemonicParsing="false" onAction="#findClicked" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: transparent;">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" smooth="false">
                            <image>
