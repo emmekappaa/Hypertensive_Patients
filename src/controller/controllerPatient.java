@@ -24,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
@@ -178,6 +179,15 @@ public class controllerPatient implements Initializable{
     	
     	alert1 = new  Alert(AlertType.NONE);
     	alertInput = new  Alert(AlertType.NONE);
+    	
+    	DialogPane dialogPane = alertInput.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());
+		dialogPane.getStyleClass().add("myDialog"); 
+		DialogPane dialogPane1 = alert1.getDialogPane();
+		dialogPane1.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());
+		dialogPane1.getStyleClass().add("myDialog"); 
+    	
+    	
     	ArrayList<Drug> lista = null;
     	
     	choiceDrug.getSelectionModel().selectedIndexProperty().addListener(new
@@ -222,7 +232,7 @@ public class controllerPatient implements Initializable{
     		}
     		
     		// set alert type
-        	alert1.setAlertType(AlertType.CONFIRMATION);
+        	alert1.setAlertType(AlertType.INFORMATION);
         	alert1.setTitle("Drug Reminder");
         	alert1.setHeaderText(testoAlert);
         	alert1.setContentText("Remember to take 'em!");

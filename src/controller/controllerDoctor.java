@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -124,6 +125,10 @@ public class controllerDoctor implements Initializable {
 		
 		alertInput = new  Alert(AlertType.NONE);
 		alertInput.setAlertType(AlertType.ERROR);
+		
+		DialogPane dialogPane = alertInput.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());
+		dialogPane.getStyleClass().add("myDialog");
 		
 		try {
 			model = Model.getInstance();

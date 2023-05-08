@@ -5,7 +5,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent; //DEVE ESSERE IL PRIMO IMPORTATO
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
@@ -31,8 +32,8 @@ public class controllerLogin implements Initializable {
 	@FXML
 	private ImageView logo;
 
-	@FXML
-	private TextField paswordField;
+    @FXML
+    private PasswordField paswordField;
 
 	@FXML
 	private TextField usernameField;
@@ -58,15 +59,15 @@ public class controllerLogin implements Initializable {
 
 		if (usernameField.getText().isEmpty() || paswordField.getText().isEmpty()) {
 			System.out.println("Inserisci credenziali");
-			alertInput.setTitle("Error login");
-    		alertInput.setHeaderText("Please insert email and passowrd field!");
+			alertInput.setTitle("ERROR LOGIN");
+    		alertInput.setHeaderText("PLEASE INSERT EMAIL AND PASSWORD FIELD!");
             // show the dialog
     		alertInput.show();
 		}
 		if (!credentials.containsKey(usernameField.getText())) {
 			//System.out.println("email non presente");
-			alertInput.setTitle("Error login");
-    		alertInput.setHeaderText("Wrong email!");
+			alertInput.setTitle("ERROR LOGIN");
+    		alertInput.setHeaderText("WRONG EMAIL!");
             // show the dialog
     		alertInput.show();
 		}
@@ -97,8 +98,8 @@ public class controllerLogin implements Initializable {
 
 			} else {
 				//System.out.println("Password errata");
-				alertInput.setTitle("Error login");
-	    		alertInput.setHeaderText("Wrong password");
+				alertInput.setTitle("ERROR LOGIN");
+	    		alertInput.setHeaderText("WRONG PASSWORD");
 	            // show the dialog
 	    		alertInput.show();
 			}
@@ -109,7 +110,7 @@ public class controllerLogin implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		
 		// inizializzo il choice box con in due parametri interessati
 		String[] choice = { "Doctor", "Patient" };
 		choiceField.getItems().addAll(choice);
@@ -117,7 +118,11 @@ public class controllerLogin implements Initializable {
 		
 		alertInput = new  Alert(AlertType.NONE);
 		alertInput.setAlertType(AlertType.ERROR);
-
+		
+		
+		DialogPane dialogPane = alertInput.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());
+		dialogPane.getStyleClass().add("myDialog");
 		try {
 			model = Model.getInstance();
 			doctorCredentials = model.getCredentials("doctor");

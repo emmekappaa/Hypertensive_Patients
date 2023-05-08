@@ -25,6 +25,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -509,7 +510,10 @@ public class controllerPatientInfo implements Initializable {
 		
 		alertInput = new  Alert(AlertType.NONE);
 		alertInput.setAlertType(AlertType.ERROR);
-
+		
+		DialogPane dialogPane = alertInput.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());
+		dialogPane.getStyleClass().add("myDialog");
 		// System.out.println(session.getCF_shmem());
 
 		String[] choice = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };

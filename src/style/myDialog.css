@@ -1,0 +1,27 @@
+.dialog-pane {
+    -fx-background-image: url("/images/background.png");
+    -fx-pref-width: 500px; /* Imposta la larghezza della finestra di dialogo su 400 pixel */
+    -fx-pref-height: 190px;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #ffffff;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: transparent;
+    /*-fx-background-image: "../images/background.png";*/
+}
+
+.dialog-pane:header .header-panel .label {
+    -fx-font-family: "Monospace";
+    -fx-font-size: 2em;
+}
+.dialog-pane .button{
+	/*-fx-font-family: "Monospace";*/
+	-fx-background-radius: 10px;
+	-fx-border-radius: 10px;
+    -fx-border-color: white;
+    -fx-background-color:#cb5d5a;
+    -fx-text-fill:#ffffff;
+}

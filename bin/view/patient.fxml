@@ -85,7 +85,7 @@
                     </children></AnchorPane>
             </content>
          <graphic>
-            <ImageView fitHeight="21.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/user%20(2).png" />
                </image>
@@ -109,12 +109,12 @@
                         <Image url="@../images/sqbox.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="28.0" fitWidth="101.0" layoutX="103.0" layoutY="133.0" pickOnBounds="true">
+                  <ImageView fitHeight="33.0" fitWidth="101.0" layoutX="102.0" layoutY="131.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/field.png" />
                      </image>
                   </ImageView>
-                  <TextArea fx:id="sbpField" layoutX="112.0" layoutY="134.0" prefHeight="12.0" prefWidth="82.0" style="-fx-background-color: transparent;">
+                  <TextArea fx:id="sbpField" layoutX="112.0" layoutY="134.0" prefHeight="22.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-border-radius: 10%;">
                      <font>
                         <Font size="8.0" />
                      </font>
@@ -159,7 +159,7 @@
                 </AnchorPane>
             </content>
          <graphic>
-            <ImageView fitHeight="24.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/patient%20(1).png" />
                </image>
@@ -211,7 +211,7 @@
                 </AnchorPane>
             </content>
          <graphic>
-            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="24.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/pill%20(1).png" />
                </image>
