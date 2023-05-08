@@ -7,56 +7,138 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerDoctor">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" side="BOTTOM" style="-fx-backgroundcolor: #2540b0;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerDoctor">
     
     <tabs>
-        <Tab text="Home">
+        <Tab style="-fx-background-color: #2540b0;">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="445.0" prefWidth="600.0" style="-fx-background-image: &quot;background.png&quot;;">
                <children>
-                  <Text fontSmoothingType="LCD" layoutX="26.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BENVENUTO,">
+                  <ImageView fitHeight="406.0" fitWidth="698.0" layoutX="-21.0" layoutY="-17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/background.png" />
+                     </image>
+                     <effect>
+                        <BoxBlur iterations="3" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="329.0" fitWidth="324.0" layoutX="35.0" layoutY="21.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/box.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="39.0" fitWidth="210.0" layoutX="92.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/welcome.png" />
+                     </image>
+                  </ImageView>
+                  <Text fontSmoothingType="LCD" layoutX="69.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dott.">
                      <font>
-                        <Font name="Tahoma" size="29.0" />
+                        <Font name="Monospaced Regular" size="27.0" />
                      </font>
                   </Text>
-                  <Text fx:id="nameDoctor" fontSmoothingType="LCD" layoutX="209.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="null">
+                  <Text fx:id="nameDoctor" fill="#1282cc" fontSmoothingType="LCD" layoutX="162.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="null">
                      <font>
-                        <Font name="Tahoma" size="29.0" />
+                        <Font name="Monospaced Bold" size="29.0" />
                      </font>
                   </Text>
-                  <Text fontSmoothingType="LCD" layoutX="26.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pazienti in osservazione:" wrappingWidth="182.50726318359375">
+                  <Text fontSmoothingType="LCD" layoutX="28.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pazienti in osservazione:" textAlignment="CENTER" wrappingWidth="337.50726318359375">
                      <font>
-                        <Font name="Tahoma" size="29.0" />
+                        <Font name="Monospaced Regular" size="25.0" />
                      </font>
                   </Text>
-                  <Text fx:id="numPazienti" fontSmoothingType="LCD" layoutX="209.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="null">
+                  <Text fx:id="numPazienti" fontSmoothingType="LCD" layoutX="180.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="null">
                      <font>
-                        <Font name="Tahoma" size="29.0" />
+                        <Font name="Monospaced Bold" size="44.0" />
                      </font>
                   </Text>
-                  <Button fx:id="exit" defaultButton="true" layoutX="513.0" layoutY="314.0" mnemonicParsing="false" onAction="#exitClicked" prefHeight="25.0" prefWidth="59.0" text="Exit" textFill="#e80000">
+                  <ImageView fitHeight="239.0" fitWidth="260.0" layoutX="379.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/docpc.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="48.0" fitWidth="47.0" layoutX="524.0" layoutY="17.0" opacity="0.8" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/box.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="exit" defaultButton="true" ellipsisString="100" layoutX="522.0" layoutY="18.0" mnemonicParsing="false" onAction="#exitClicked" prefHeight="46.0" prefWidth="40.0" style="-fx-background-color: trasparent;" textFill="WHITE">
                      <font>
                         <Font name="Georgia" size="12.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="39.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children>
                 </AnchorPane>
             </content>
+         <graphic>
+            <ImageView fitHeight="33.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/user%20(2).png" />
+               </image>
+            </ImageView>
+         </graphic>
         </Tab>
-        <Tab text="Patients">
+        <Tab style="-fx-background-color: #2540b0;">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <TextField fx:id="finderTextArea" layoutX="125.0" layoutY="38.0" />
-                        <Button fx:id="findButton" layoutX="325.0" layoutY="38.0" mnemonicParsing="false" onAction="#findClicked" text="Find" />
-                        <Label layoutX="33.0" layoutY="42.0" text="Find patient" />
-                  <TableView fx:id="tablePatient" layoutX="52.0" layoutY="105.0" prefHeight="185.0" prefWidth="495.0">
+                  <ImageView fitHeight="406.0" fitWidth="698.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/background.png" />
+                     </image>
+                     <effect>
+                        <BoxBlur iterations="3" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="352.0" fitWidth="552.0" layoutX="25.0" layoutY="9.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/sqbox.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="200.0" layoutX="51.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/patient.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="28.0" fitWidth="177.0" layoutX="42.0" layoutY="318.0" opacity="0.54" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/field.png" />
+                     </image>
+                  </ImageView>
+                        <TextField fx:id="finderTextArea" layoutX="54.0" layoutY="319.0" style="-fx-background-color: trasparent;" />
+                        <Button fx:id="findButton" layoutX="497.0" layoutY="305.0" mnemonicParsing="false" onAction="#findClicked" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: trasparent;">
+                     <graphic>
+                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                           <image>
+                              <Image url="@../images/magnifier.png" />
+                           </image>
+                           <effect>
+                              <InnerShadow blurType="TWO_PASS_BOX" />
+                           </effect>
+                        </ImageView>
+                     </graphic></Button>
+                        <Label layoutX="55.0" layoutY="295.0" text="Search patient:">
+                     <font>
+                        <Font name="Monospaced Regular" size="16.0" />
+                     </font></Label>
+                  <TableView fx:id="tablePatient" layoutX="51.0" layoutY="76.0" prefHeight="214.0" prefWidth="496.0" style="-fx-border-radius: 30%; -fx-background-color: #6792d5; -fx-color: #2540b0; -fx-colortext: white;">
                      <columns>
-                        <TableColumn fx:id="cf" prefWidth="113.99999237060547" text="Tax ID Code" />
+                        <TableColumn fx:id="cf" prefWidth="113.99999237060547" style="-fx-textcolor: white;" text="Tax ID Code" />
                         <TableColumn fx:id="name" prefWidth="92.00006103515625" text="Name" />
                         <TableColumn fx:id="surname" prefWidth="109.99993896484375" text="Surname" />
                         <TableColumn fx:id="email" prefWidth="84.4000244140625" text="Email" />
@@ -66,6 +148,13 @@
                     </children>
                 </AnchorPane>
             </content>
+         <graphic>
+            <ImageView fitHeight="22.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/user%20(1).png" />
+               </image>
+            </ImageView>
+         </graphic>
         </Tab>
     </tabs>
 </TabPane>
