@@ -437,7 +437,7 @@ public class controllerPatientInfo implements Initializable {
 			}
 			ct++;	
 		}
-		System.out.println("Contains?" + listaTerap.contains(drugChoice.getValue())+ "oldChoice: "+globalTherapyChoiced);
+		System.out.println("Contains? " + listaTerap.contains(drugChoice.getValue())+ "oldChoice: "+globalTherapyChoiced);
 		
 		if(!quantity.getText().isEmpty() && !description.getText().isEmpty() && (!listaTerap.contains(drugChoice.getValue()) || (modify==true && statusChoice.getValue().equals("ended")) ) ){
 			String CF_doctor = (String) infoPerson.getCF_doctor();
