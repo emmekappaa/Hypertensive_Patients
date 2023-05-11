@@ -14,24 +14,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Model {
-	// test per michele che è bravo
-	public void log(Object o) {
-		System.out.println(o);
-	}
 
 	private static Model single_instance = null;
 	private Connection conn;
 
-	/*
-	 * DA ELIMINARE QUESTE DUE QUI SOTTO
-	 */
-	public ObservableList<SimpleStringProperty> occupations = FXCollections.observableArrayList();
-
+	/**
+	Executes an SQL statement that does not return a result set.
+	@param s a String representing the SQL statement to be executed
+	@throws SQLException if a database access error occurs or the statement fails to execute
+	*/
 	public void connect() throws SQLException {
 
 		String url = "jdbc:sqlite:table.db";
@@ -40,6 +35,22 @@ public class Model {
 
 	}
 
+	/**
+
+	Logs the given object to the console.
+	@param o the object to be logged
+	*/
+	public void log(Object o) {
+		System.out.println(o);
+	}
+	
+	/**
+
+	Executes an SQL statement that returns the number of rows affected.
+	@param s a String representing the SQL statement to be executed
+	@return an integer value indicating the number of rows affected by the statement
+	@throws SQLException if a database access error occurs or the statement fails to execute
+	*/
 	public ResultSet runQuery(String q) throws SQLException {
 
 		ResultSet rs = null;
@@ -49,6 +60,12 @@ public class Model {
 
 	}
 
+	/**
+
+	Executes an SQL statement that does not return a result set.
+	@param s a String representing the SQL statement to be executed
+	@throws SQLException if a database access error occurs or the statement fails to execute
+	*/
 	public void runStatement(String s) throws SQLException {
 
 		Statement stmt = conn.createStatement();
@@ -56,14 +73,13 @@ public class Model {
 
 	}
 
-	public int runStatementWithOutput(String s) throws SQLException {
 
-		int r;
-		Statement stmt = conn.createStatement();
-		r = stmt.executeUpdate(s);
-		return r;
-	}
+	/**
 
+	Constructor method for the Model class. Initializes a new instance of the database connection and checks if all required tables exist.
+	If any of the tables does not exist, this method invokes a corresponding reset method to recreate the table.
+	@throws SQLException if there is an error with the database connection or SQL statements.
+	*/
 	private Model() throws SQLException {
 		connect();
 		if (tableExists("doctor")) {
@@ -154,11 +170,14 @@ public class Model {
 		}
 		;
 
-		// BRO QUI POPOLI LE TABELLE E FAI ALTRE COSE CHE NON SAPPIAMO ANCORA FARE BHO
-		// ECCO
-
 	}
 
+	/*
+	 * Return singleton Model instance
+	 * 
+	 * @return  Model
+	 * 
+	 */
 	public static synchronized Model getInstance() throws SQLException {
 		if (single_instance == null)
 			single_instance = new Model();
@@ -166,6 +185,14 @@ public class Model {
 		return single_instance;
 	}
 
+	
+	/*
+	 * check if table db exist
+	 * 
+	 * @param q query string to be fermormed
+	 * @return  ResultSet
+	 * 
+	 */
 	public boolean tableExists(String table_name) throws SQLException {
 		String q = "SELECT * FROM sqlite_master WHERE tbl_name = '" + table_name + "'";
 		// log(q);
@@ -173,6 +200,19 @@ public class Model {
 		return rs.next();
 	}
 
+	
+	/**
+
+	Resets the doctor table, dropping it if it exists and creating a new table with the following columns:
+	<ul>
+	<li>CF VARCHAR(16) PRIMARY KEY</li>
+	<li>Name VARCHAR(50) NOT NULL</li>
+	<li>Surname VARCHAR(50) NOT NULL</li>
+	<li>Email VARCHAR(100) UNIQUE NOT NULL</li>
+	<li>Password VARCHAR(255) NOT NULL</li>
+	</ul>
+	@throws SQLException if an error occurs while executing the SQL statements
+	*/
 	public void resetDoctorTable() throws SQLException {
 		String s = "DROP TABLE IF EXISTS doctor;" + "CREATE TABLE doctor (" + "CF VARCHAR(16) PRIMARY KEY, "
 				+ "Name VARCHAR(50) NOT NULL," + "Surname VARCHAR(50) NOT NULL, "
@@ -180,7 +220,20 @@ public class Model {
 		log(s);
 		runStatement(s);
 	}
+	
+	/**
 
+	Resets the patient table, dropping it if it exists and creating a new table with the following columns:
+	<ul>
+	<li>CF VARCHAR(16) PRIMARY KEY</li>
+	<li>Name VARCHAR(50) NOT NULL</li>
+	<li>Surname VARCHAR(50) NOT NULL</li>
+	<li>Email VARCHAR(100) UNIQUE NOT NULL</li>
+	<li>Password VARCHAR(255) NOT NULL</li>
+	<li>CF_doctor VARCHAR(16) NOT NULL, FOREIGN KEY (CF_doctor) REFERENCES doctor(CF)</li>
+	</ul>
+	@throws SQLException if an error occurs while executing the SQL statements
+	*/
 	public void resetPatientTable() throws SQLException {
 		String s = "DROP TABLE IF EXISTS patient;" + "CREATE TABLE patient( " + "CF VARCHAR(16) PRIMARY KEY, "
 				+ "Name VARCHAR(50) NOT NULL, " + "Surname VARCHAR(50) NOT NULL, "
@@ -190,6 +243,18 @@ public class Model {
 		runStatement(s);
 	}
 
+	
+	/**
+
+	Resets the patientDoctor table, dropping it if it exists and creating a new table with the following columns:
+	<ul>
+	<li>CF_Doctor VARCHAR(16) NOT NULL, FOREIGN KEY (CF_Doctor) REFERENCES doctor(CF)</li>
+	<li>CF_Patient VARCHAR(16) NOT NULL, FOREIGN KEY (CF_Patient) REFERENCES patient(CF)</li>
+	<li>Info_Date DATE NOT NULL</li>
+	<li>Info VARCHAR(255) NOT NULL</li>
+	</ul>
+	@throws SQLException if an error occurs while executing the SQL statements
+	*/
 	public void resetPatientDoctor() throws SQLException {
 		String s = "DROP TABLE IF EXISTS patientDoctor;" + "CREATE TABLE patientDoctor( "
 				+ "CF_Doctor VARCHAR(16) NOT NULL, " + "CF_Patient VARCHAR(16) NOT NULL, " + "Info_Date DATE NOT NULL, "
@@ -200,6 +265,13 @@ public class Model {
 		runStatement(s);
 	}
 
+	/**
+
+	Resets the diagnosis table by dropping it if it exists and creating a new table with columns
+	ID, CF_Patient, Date, Time, SBP, and DBP.
+	Throws an SQLException if an error occurs while executing the SQL statements.
+	@throws SQLException if an error occurs while executing the SQL statements.
+	*/
 	public void resetDiagnosis() throws SQLException {
 		String s = "DROP TABLE IF EXISTS diagnosis;" + "CREATE TABLE diagnosis( "
 				+ "ID INTEGER PRIMARY KEY AUTOINCREMENT, " + "CF_Patient VARCHAR(16) NOT NULL, "
@@ -209,6 +281,13 @@ public class Model {
 		runStatement(s);
 	}
 
+	
+	/**
+
+	Resets the symptom table by dropping it if it exists and creating a new table with columns
+	ID and Description. Throws an SQLException if an error occurs while executing the SQL statements.
+	@throws SQLException if an error occurs while executing the SQL statements.
+	*/
 	public void resetSymptoms() throws SQLException {
 		String s = "DROP TABLE IF EXISTS symptom ;" + "CREATE TABLE symptom( "
 				+ "ID INTEGER PRIMARY KEY AUTOINCREMENT, " + "Description VARCHAR(255) NOT NULL " + ");";
@@ -216,6 +295,13 @@ public class Model {
 		runStatement(s);
 	}
 
+	/**
+
+	Resets the diagnosisSymptoms table by dropping it if it exists and creating a new table with columns
+	ID, ID_Diagnosis, and ID_Symptom. The table has foreign keys that reference the diagnosis and symptom tables.
+	Throws an SQLException if an error occurs while executing the SQL statements.
+	@throws SQLException if an error occurs while executing the SQL statements.
+	*/
 	public void resetDiagnosisSymptoms() throws SQLException {
 		String s = "DROP TABLE IF EXISTS diagnosisSymptoms ;" + "CREATE TABLE diagnosisSymptoms( "
 				+ "ID INTEGER PRIMARY KEY AUTOINCREMENT, " + "ID_Diagnosis INTEGER NOT NULL, "
@@ -225,6 +311,12 @@ public class Model {
 		runStatement(s);
 	}
 
+	/**
+
+	Resets the 'pathology' table in the database. Drops the table if it exists and recreates it with a single column
+	'Description' of type VARCHAR(255).
+	@throws SQLException if there is an error accessing the database
+	*/
 	public void resetPathology() throws SQLException {
 		String s = "DROP TABLE IF EXISTS pathology ;" + "CREATE TABLE pathology( "
 				+ "ID INTEGER PRIMARY KEY AUTOINCREMENT, " + "Description VARCHAR(255) NOT NULL " + ");";
@@ -232,6 +324,15 @@ public class Model {
 		runStatement(s);
 	}
 
+	/**
+
+	Resets the 'patientPathology' table in the database. Drops the table if it exists and recreates it with columns
+	'ID_Pathology' (integer), 'CF_Patient' (VARCHAR(16)), 'Start_Date' (DATE), and 'End_Date' (DATE).
+	Sets a composite primary key on 'ID_Pathology' and 'CF_Patient', and creates foreign key constraints on
+	'ID_Pathology' and 'CF_Patient' referencing the 'ID' column of 'pathology' table and 'CF' column of 'patient' table,
+	respectively.
+	@throws SQLException if there is an error accessing the database
+	*/
 	public void resetPatientPathology() throws SQLException {
 		String s = "DROP TABLE IF EXISTS patientPathology;" + "CREATE TABLE patientPathology ("
 				+ "ID_Pathology INTEGER NOT NULL," + "CF_Patient VARCHAR(16) NOT NULL," + "Start_Date DATE NOT NULL,"
@@ -242,6 +343,16 @@ public class Model {
 		runStatement(s);
 	}
 
+	
+	/**
+
+	Resets the 'therapy' table in the database. Drops the table if it exists and recreates it with columns 'ID' (integer),
+	'CF_Patient' (VARCHAR(16)), 'CF_Doctor' (VARCHAR(16)), 'ID_Drug' (integer), 'Quantity' (integer), 'Assumptions'
+	(integer), 'Indication' (VARCHAR(255)), and 'Status' (VARCHAR(50)). Creates foreign key constraints on
+	'CF_Patient' and 'CF_Doctor' columns referencing the 'CF' column of 'patient' and 'doctor' tables, respectively, and
+	creates a foreign key constraint on 'ID_Drug' referencing the 'ID' column of 'drug' table.
+	@throws SQLException if there is an error accessing the database
+	*/
 	public void resetTherapy() throws SQLException {
 		String s = "DROP TABLE IF EXISTS therapy;" + "CREATE TABLE therapy (" + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "CF_Patient VARCHAR(16) NOT NULL," + "CF_Doctor VARCHAR(16) NOT NULL," + "ID_Drug INTEGER NOT NULL,"
@@ -252,6 +363,12 @@ public class Model {
 		runStatement(s);
 	}
 
+	/**
+
+	Resets the 'drug' table in the database. Drops the table if it exists and recreates it with a single column
+	'Description' of type VARCHAR(255).
+	@throws SQLException if there is an error accessing the database
+	*/
 	public void resetDrug() throws SQLException {
 		String s = "DROP TABLE IF EXISTS drug;" + "CREATE TABLE drug (" + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "Description VARCHAR(255) NOT NULL" + ");";
@@ -259,6 +376,14 @@ public class Model {
 		runStatement(s);
 	}
 
+	
+	/**
+
+	Resets the drugAssumptions table by dropping it if it exists and then creating a new table with the same structure.
+	The table contains information about the assumptions of drugs made by patients, including the ID of the patient and the drug,
+	the date and time of the assumption, and the quantity of the drug assumed.
+	@throws SQLException if there is an error in executing the SQL statements to reset the table
+	*/
 	public void resetDrugAssumptions() throws SQLException {
 		String s = "DROP TABLE IF EXISTS drugAssumptions;" + "CREATE TABLE drugAssumptions ("
 				+ "ID INTEGER PRIMARY KEY AUTOINCREMENT," + "Patient_ID VARCHAR(16)," + "Drug_ID INTEGER,"
@@ -267,7 +392,15 @@ public class Model {
 		log(s);
 		runStatement(s);
 	}
+	
+	/**
 
+	Checks if the provided plain-text password matches the hashed password stored in the database.
+	@param email the email associated with the user
+	@param psw the plain-text password entered by the user
+	@param criptedPsw the hashed password stored in the database
+	@return true if the plain-text password matches the hashed password, false otherwise
+	*/
 	public boolean checkLogin(String email, String psw, String criptedPsw) {
 
 		String psw_stored_DB = criptedPsw;
@@ -306,6 +439,14 @@ public class Model {
 		return false;
 	}
 
+	
+	/**
+
+	Retrieves a map containing email and password for all users of the specified table.
+	@param table the name of the table containing the users
+	@return a map where each entry maps an email to its corresponding password
+	@throws SQLException if a database access error occurs
+	*/
 	public Map<String, String> getCredentials(String table) throws SQLException {
 
 		Map<String, String> credentials = new HashMap<>();
@@ -322,6 +463,14 @@ public class Model {
 		return credentials;
 	}
 
+	/**
+
+	Retrieves the information associated with a user identified by their email.
+	@param email the email associated with the user
+	@param table the name of the table containing the user information
+	@return an object representing the user information, either a Doctor or a Patient object
+	@throws SQLException if a database access error occurs
+	*/
 	public Object retrieveInfoByEmail(String email, String table) throws SQLException {
 		String q = "SELECT * FROM " + table + " WHERE email='" + email + "'";
 		log(q);
@@ -354,6 +503,15 @@ public class Model {
 		return tmp;
 	}
 	
+	
+	/**
+
+	Retrieves information from a database table for a given CF and returns it as an Object.
+	@param cf The CF to search for in the table.
+	@param table The name of the table to search in.
+	@return An Object containing the retrieved information.
+	@throws SQLException if there is an error executing the SQL query.
+	*/
 	public Object retrieveInfoByCF(String cf, String table) throws SQLException {
 		String q = "SELECT * FROM " + table + " WHERE CF='" + cf + "'";
 		log(q);
@@ -386,6 +544,14 @@ public class Model {
 		return tmp;
 	}
 
+	
+	/**
+
+	Retrieves a list of patients from the database who have a specific doctor.
+	@param doctorCF The CF of the doctor to search for.
+	@return An ObservableList of Patient objects who have the specified doctor.
+	@throws SQLException if there is an error executing the SQL query.
+	*/
 	public ObservableList<Patient> getPatientsByDoctor(String doctorCF) throws SQLException {
 
 		ObservableList<Patient> patientList = FXCollections.observableArrayList();
@@ -407,6 +573,14 @@ public class Model {
 		return patientList;
 	}
 	
+	
+	/**
+
+	Retrieves a list of therapies for a given patient from the database.
+	@param CF The CF of the patient to search for.
+	@return An ObservableList of Therapy objects for the specified patient.
+	@throws SQLException if there is an error executing the SQL query.
+	*/
 	public ObservableList<Therapy> getPatientTherapies(String CF) throws SQLException {
 
 		ObservableList<Therapy> list = FXCollections.observableArrayList();
@@ -431,6 +605,15 @@ public class Model {
 		return list;
 	}
 	
+	
+	
+	/**
+
+	Retrieves a list of information notes for a given patient from the database.
+	@param CF The CF of the patient to search for.
+	@return An ObservableList of Info objects for the specified patient.
+	@throws SQLException if there is an error executing the SQL query.
+	*/
 	public ObservableList<Info> getPatientInfos(String CF) throws SQLException {
 		
 		ObservableList<Info> list = FXCollections.observableArrayList();
@@ -450,7 +633,12 @@ public class Model {
 	}
 	
 	
-	
+	/**
+	Returns a list of pathologies associated with a patient.
+	@param CF the patient's tax code.
+	@return an ObservableList containing the patient's pathologies.
+	@throws SQLException if an error occurs while querying the database.
+	*/
 	public ObservableList<Pathology> getPatientPathologies(String CF) throws SQLException {
 
 		ObservableList<Pathology> list = FXCollections.observableArrayList();
@@ -469,6 +657,18 @@ public class Model {
 		return list;
 	}
 	
+	/**
+
+	Returns the ID of a therapy with a certain set of parameters.
+	@param idDoctor the tax code of the doctor.
+	@param idPatient the tax code of the patient.
+	@param idDrug the ID of the drug.
+	@param qnty the quantity of the drug.
+	@param Assumptions the drug's assumptions.
+	@param Indication the drug's indication.
+	@return the ID of the therapy with the specified parameters.
+	@throws SQLException if an error occurs while querying the database.
+	*/
 	public int getIDtherapyByAll(String idDoctor,String idPatient,String idDrug,String qnty,String Assumptions,String Indication) throws SQLException {
 		String query = "SELECT ID FROM therapy WHERE CF_Patient='"+idPatient+"' and CF_Doctor='"+idDoctor+"' and ID_Drug='"+idDrug+"' and Quantity="+qnty+" and Assumptions="+Assumptions+" and Indication='"+Indication+"' and Status='ongoing'";
 		log(query);
@@ -476,6 +676,13 @@ public class Model {
 		return rs.getInt("ID");
 	}
 	
+	/**
+
+	Returns the tax code of a doctor associated with a patient.
+	@param patientCF the tax code of the patient.
+	@return the tax code of the doctor.
+	@throws SQLException if an error occurs while querying the database.
+	*/
 	public String getCfDoctorByCfPatient(String patientCF) throws SQLException {
 
 		String query = "SELECT CF_doctor FROM patient WHERE CF ='" + patientCF + "'";
@@ -487,6 +694,14 @@ public class Model {
 		
 	}
 	
+	
+	/**
+
+	Returns a list of symptoms associated with a diagnosis.
+	@param ID the ID of the diagnosis.
+	@return an ObservableList containing the symptoms of the diagnosis.
+	@throws SQLException if an error occurs while querying the database.
+	*/
 	public ObservableList<Symptom> getDiagnosiSymptom(int ID) throws SQLException {
 
 		ObservableList<Symptom> list = FXCollections.observableArrayList();
@@ -505,7 +720,14 @@ public class Model {
 	
 	
 	
-	
+	/**
+
+	Retrieves a list of Diagnosis objects that occurred within a specific date range.
+	@param start A string representing the start date in the format "yyyy-MM-dd".
+	@param end A string representing the end date in the format "yyyy-MM-dd".
+	@return An ObservableList of Diagnosis objects that occurred within the specified date range.
+	@throws SQLException If there was an error executing the SQL query.
+	*/
 	public ObservableList<Diagnosis> getDiagnosis(String start,String end) throws SQLException {
 
 		ObservableList<Diagnosis> list = FXCollections.observableArrayList();
@@ -525,7 +747,12 @@ public class Model {
 	}
 
 	
-	
+	/**
+
+	Retrieves a list of all drug IDs from the database.
+	@return A List of Strings containing all drug IDs.
+	@throws SQLException If there was an error executing the SQL query.
+	*/
 	public List<String> getAllDrugs() throws SQLException {
 
 		List<String> lista = new ArrayList<String>();
@@ -539,6 +766,13 @@ public class Model {
 		return lista;
 	}
 	
+	
+	/**
+
+	Retrieves a list of all pathology IDs from the database.
+	@return A List of Strings containing all pathology IDs.
+	@throws SQLException If there was an error executing the SQL query.
+	*/
 	public List<String> getAllPathologies() throws SQLException {
 
 		List<String> lista = new ArrayList<String>();
@@ -552,6 +786,13 @@ public class Model {
 		return lista;
 	}
 	
+	
+	/**
+
+	Returns a list of all symptoms present in the database.
+	@return an ObservableList of strings containing all the symptom IDs present in the database
+	@throws SQLException if there is an error in the query execution
+	*/
 	public ObservableList<String> getAllSymptom() throws SQLException {
 
 		ObservableList<String> lista = FXCollections.observableArrayList();
@@ -564,6 +805,14 @@ public class Model {
 		return lista;
 	}
 	
+	
+	/**
+
+	Returns a list of all drugs currently available to a given patient based on their CF.
+	@param cf the CF of the patient
+	@return a List of strings containing the IDs of all drugs currently available to the patient
+	@throws SQLException if there is an error in the query execution
+	*/
 	public List<String> getAvaiableDrugs(String cf) throws SQLException {
 
 		List<String> lista = FXCollections.observableArrayList();
@@ -577,6 +826,16 @@ public class Model {
 		return lista;
 	}
 	
+	
+	/**
+
+	Returns information about a given drug for a given patient, including the number of times it has been taken today.
+
+	@param drug the ID of the drug
+	@param cf_patient the CF of the patient
+	@return a String containing information about the drug and its current usage
+	@throws SQLException if there is an error in the query execution
+	*/
 	public String getInfoDrug(String drug,String cf_patient) throws SQLException {
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
@@ -600,6 +859,13 @@ public class Model {
 		return info;
 	}
 	
+	/**
+
+	Returns the email address of the doctor with a given CF.
+	@param cf the CF of the doctor
+	@return a String containing the email address of the doctor
+	@throws SQLException if there is an error in the query execution
+	*/
 	public String getEmailDoctorByCF(String cf) throws SQLException{
 		
 		
@@ -617,6 +883,13 @@ public class Model {
 		return email;
 	}
 	
+	/**
+
+	Returns the surname of the doctor identified by the given CF (fiscal code).
+	@param cf the fiscal code of the doctor
+	@return the surname of the doctor
+	@throws SQLException if there's an error executing the SQL query
+	*/
 	public String getSurnameDoctorByCF(String cf) throws SQLException{
 		
 		
@@ -634,6 +907,14 @@ public class Model {
 		return name;
 	}
 	
+	/**
+
+	Checks whether the patient identified by the given CF (fiscal code) has taken drugs prescribed
+	within the last three days.
+	@param cf the fiscal code of the patient
+	@return true if the patient hasn't taken drugs within the last three days, false otherwise
+	@throws SQLException if there's an error executing the SQL query
+	*/
 	public boolean checkFollowPatient(String cf) throws SQLException {
 		LocalDateTime now = LocalDateTime.now();  
 		
@@ -647,6 +928,15 @@ public class Model {
 		return false;
 	}
 	
+	/**
+
+	Returns the drugs that should be taken by the patient identified by the given CF (fiscal code)
+	on the specified date. The drugs are returned as an ArrayList of Drug objects.
+	@param cf the fiscal code of the patient
+	@param date the date for which the drugs should be returned. If null, the current date is used.
+	@return the drugs that should be taken by the patient on the specified date
+	@throws SQLException if there's an error executing the SQL query
+	*/
 	public ArrayList<Drug> getDrugToBeTaken(String cf,LocalDateTime date) throws SQLException{
 		
 		
@@ -702,6 +992,17 @@ public class Model {
 		return listaAssumption;
 	}
 	
+	/**
+
+	Retrieves the average value of the specified column from the diagnosis table
+	for the patient with the given CF code in the past four weeks from the specified
+	date and returns the average as an integer.
+	@param column the column name to retrieve the average value from
+	@param CF the CF code of the patient to retrieve the data for
+	@param now the current date and time as a LocalDateTime object
+	@return the average value of the specified column for the patient in the past four weeks
+	@throws SQLException if there is an error in the SQL query execution
+	*/
 	public int getBPM(String column,String CF,LocalDateTime now) throws SQLException{
 		
 		long average = 0;
@@ -724,6 +1025,15 @@ public class Model {
 	}
 	
 	
+	/**
+
+	Retrieves the ID of the diagnosis record for the patient with the given CF code
+	and the specified date from the diagnosis table and returns the ID as a string.
+	@param cf the CF code of the patient to retrieve the data for
+	@param date the date of the diagnosis as a string in the format "yyyy-MM-dd HH:mm:ss"
+	@return the ID of the diagnosis record for the patient with the given CF code and date
+	@throws SQLException if there is an error in the SQL query execution
+	*/
 	public String getIdDiagnosi(String cf,String date) throws SQLException {
 		
 		 
@@ -737,6 +1047,14 @@ public class Model {
 		return "";
 	}
 	
+	/**
+
+	Inserts the list of symptoms into the diagnosisSymptoms table for the diagnosis
+	record with the specified ID.
+	@param lista the list of symptoms to insert
+	@param id the ID of the diagnosis record to insert the symptoms for
+	@throws SQLException if there is an error in the SQL query execution
+	*/
 	public void insertSymptom(ObservableList<String> lista,String id) throws SQLException {
 		
 		for(String symptom : lista) {
@@ -752,7 +1070,18 @@ public class Model {
 		
 	}
 	
-	
+	/**
+
+	Inserts a new therapy record into the therapy table for the specified patient,
+	doctor, drug, quantity, assumptions, and indication with the status of "ongoing".
+	@param idDoctor the ID of the doctor prescribing the therapy
+	@param idPatient the ID of the patient receiving the therapy
+	@param idDrug the ID of the drug being prescribed for the therapy
+	@param qnty the quantity of the drug being prescribed for the therapy
+	@param Assumptions the assumptions related to the therapy as a string
+	@param Indication the indication related to the therapy as a string
+	@throws SQLException if there is an error in the SQL query execution
+	*/
 	public void insertTherapy(String idDoctor,String idPatient,String idDrug,String qnty,String Assumptions,String Indication) throws SQLException {
 		String query = "INSERT INTO therapy (CF_Patient, CF_Doctor, ID_Drug, Quantity, Assumptions, Indication, Status) VALUES ('"+idPatient+"', '"+idDoctor+"', '"+idDrug+"', "+qnty+", "+Assumptions+", '"+Indication+"', 'ongoing')";
 		log(query);
@@ -760,6 +1089,16 @@ public class Model {
 		ResultSet rs = runQuery(query);
 	}
 	
+	
+	
+	/**
+	 * Adds a new drug assumption to the database for the specified patient, drug, and date.
+	 *
+	 * @param idPatient the ID of the patient to add the drug assumption for
+	 * @param idDrug the ID of the drug that was assumed
+	 * @param date the date when the drug was assumed
+	 * @throws SQLException if there was an error executing the database query
+	 */
 	public void takeDrug(String idPatient,String idDrug,String date) throws SQLException {
 		String query = "INSERT INTO drugAssumptions (Patient_ID, Drug_ID, Date, Quantity) VALUES ('"+idPatient+"', '"+idDrug+"', '"+date+"', 1)";
 		log(query);
@@ -767,7 +1106,19 @@ public class Model {
 		ResultSet rs = runQuery(query);
 	}
 	
-	
+	/**
+	 * Updates the information related to a therapy, such as the doctor, patient, drug, quantity, assumptions, indication, and status.
+	 *
+	 * @param ID the ID of the therapy to update
+	 * @param idDoctor the ID of the doctor associated with the therapy
+	 * @param idPatient the ID of the patient associated with the therapy
+	 * @param idDrug the ID of the drug associated with the therapy
+	 * @param qnty the quantity of the drug for the therapy
+	 * @param Assumptions the assumptions related to the therapy
+	 * @param Indication the indication for the therapy
+	 * @param status the status of the therapy
+	 * @throws SQLException if there was an error executing the database query
+	 */
 	public void updateTherapy(Integer ID, String idDoctor,String idPatient,String idDrug,String qnty,String Assumptions,String Indication,String status) throws SQLException {
 		String query = "UPDATE therapy SET CF_Doctor='" + idDoctor + "', CF_Patient='" + idPatient + "', ID_Drug='" + idDrug + "', Quantity=" + qnty + ", Assumptions=" + Assumptions + ", Indication='" + Indication + "', Status='" + status + "' WHERE ID=" + ID;
 		log(query);
@@ -775,7 +1126,15 @@ public class Model {
 		ResultSet rs = runQuery(query);
 	}
 	
-	
+	/**
+	 * Inserts a new pathology to the database for the specified patient, pathology, start date, and end date (if available).
+	 *
+	 * @param id_pat the ID of the pathology
+	 * @param cf the CF code of the patient associated with the pathology
+	 * @param start the start date of the pathology
+	 * @param end the end date of the pathology (if available), or null if the pathology is still ongoing
+	 * @throws SQLException if there was an error executing the database query
+	 */
 	public void insertPathology(String id_pat,String cf,String start, String end) throws SQLException {
 		String query;
 		if(end == null) {
@@ -788,6 +1147,15 @@ public class Model {
 		ResultSet rs = runQuery(query);
 	}
 	
+	/**
+	 * Inserts a new blood pressure measurement to the database for the specified patient, diastolic blood pressure, systolic blood pressure, and date.
+	 *
+	 * @param cf the CF code of the patient associated with the blood pressure measurement
+	 * @param DBP the diastolic blood pressure value
+	 * @param SBP the systolic blood pressure value
+	 * @param data the date when the blood pressure was measured
+	 * @throws SQLException if there was an error executing the database query
+	 */
 	public void insertBPM(String cf,String DBP,String SBP,String data) throws SQLException {
 		
 		 
@@ -797,6 +1165,16 @@ public class Model {
 		ResultSet rs = runQuery(query);
 	}
 	
+	
+	/**
+	 * Updates the information related to a pathology, such as the ID of the pathology, patient, start date, and end date (if available).
+	 *
+	 * @param id_pat the new ID of the pathology
+	 * @param cf the new CF code of the patient associated with the pathology
+	 * @param start the new start date of the pathology
+	 * @param end the new end date of the pathology (if available), or null if the pathology is still ongoing
+	 * @throws SQLException if there was an error executing the database query
+	 */
 	public void updatePathology(String id_pat,String cf,String start, String end) throws SQLException{
 		
 		String query;
@@ -813,6 +1191,15 @@ public class Model {
 		ResultSet rs = runQuery(query);
 	}
 	
+	
+	/**
+
+	Inserts a new generic information about a patient into the database.
+	@param idDoctor The ID of the doctor who is adding the information.
+	@param idPatient The ID of the patient the information is about.
+	@param info The information to be added.
+	@throws SQLException If an error occurs while accessing the database.
+	*/
 	public void insertGenericInfo(String idDoctor,String idPatient, String info) throws SQLException {
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  

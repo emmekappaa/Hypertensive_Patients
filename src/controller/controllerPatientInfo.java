@@ -235,7 +235,7 @@ public class controllerPatientInfo implements Initializable {
 		modify = !modify;
 		
 		
-	
+		
 	    
 		if (modify == true) {
 			//modifyTherapy.setText("Discard");
@@ -258,10 +258,13 @@ public class controllerPatientInfo implements Initializable {
 			Therapy th = therapiesTable.getSelectionModel().getSelectedItem();
 			System.out.println(th.getID_Drug());
 
+			globalTherapyChoiced = th.getID_Drug();
+			
 			if (!modify) { // se schiaccio di nuovo modifica per annullare cambio i campi
 				clearTherapiesField();
-			} else { // altrimenti devo settare i campi
-				listaTerap.remove(drugChoice.getValue());
+			} 
+			else { // altrimenti devo settare i campi
+				//listaTerap.remove(drugChoice.getValue());
 				drugChoice.valueProperty().set(th.getID_Drug());
 				assumptionChoice.valueProperty().set(Integer.toString(th.getAssumptions()));
 				statusChoice.valueProperty().set(th.getStatus());
@@ -417,13 +420,26 @@ public class controllerPatientInfo implements Initializable {
 
 		clearTherapiesField1();
 	}
+	
+	String globalTherapyChoiced;
 
 	@FXML
 	void insertTerapyButton_clicked(ActionEvent event) {
 		
 		//Therapy th = therapiesTable.getSelectionModel().getSelectedItem();
+		int ct=0;
+		int trueCT  = 99;
+		for(String s : listaTerap)
+		{
+			System.out.println("Tera:" + s);
+			if(s.equals(globalTherapyChoiced)) {
+				trueCT = ct;
+			}
+			ct++;	
+		}
+		System.out.println("Contains?" + listaTerap.contains(drugChoice.getValue())+ "oldChoice: "+globalTherapyChoiced);
 		
-		if(!quantity.getText().isEmpty() && !description.getText().isEmpty() && !listaTerap.contains(drugChoice.getValue())){
+		if(!quantity.getText().isEmpty() && !description.getText().isEmpty() && (!listaTerap.contains(drugChoice.getValue()) || (modify==true && statusChoice.getValue().equals("ended")) ) ){
 			String CF_doctor = (String) infoPerson.getCF_doctor();
 			String CF_patient = session.getCF_shmem();
 			String Drug = drugChoice.getValue();
@@ -432,7 +448,9 @@ public class controllerPatientInfo implements Initializable {
 			String Indication = description.getText();
 			
 			if (modify == true) {
-
+				
+				
+				
 				Therapy th = therapiesTable.getSelectionModel().getSelectedItem();
 				try {
 					model.updateTherapy(th.getID(), infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),
@@ -440,6 +458,8 @@ public class controllerPatientInfo implements Initializable {
 				} catch (SQLException e) {
 				}
 				
+				//rimuovi stringa
+				listaTerap.remove(trueCT);
 				
 				therapiesTable.getItems()
 						.add(new Therapy(th.getID(), CF_patient, CF_doctor, Drug, Quantity, Assumption, Indication, statusChoice.getValue()));
@@ -447,6 +467,12 @@ public class controllerPatientInfo implements Initializable {
 				allTh = therapiesTable.getItems();
 				singleTh = therapiesTable.getSelectionModel().getSelectedItems();
 				singleTh.forEach(allTh::remove);
+				
+				if(statusChoice.getValue().equals("ongoing")) {
+					listaTerap.add(drugChoice.getValue());
+				}
+				
+				
 			} else {
 				try {
 					model.insertTherapy(infoPerson.getCF_doctor(), session.getCF_shmem(), drugChoice.getValue(),quantity.getText(), (String) assumptionChoice.getValue(), description.getText());

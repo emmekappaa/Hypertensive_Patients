@@ -249,7 +249,7 @@
                   <ChoiceBox fx:id="assumptionChoice" layoutX="112.0" layoutY="193.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #1282cc; -fx-text-fill: #ffffff;" />
                   <TextArea fx:id="quantity" layoutX="67.0" layoutY="328.0" prefHeight="38.0" prefWidth="174.0" />
                   <TextArea fx:id="description" layoutX="56.0" layoutY="405.0" prefHeight="85.0" prefWidth="193.0" />
-                  <Button fx:id="insertTerapyButton" layoutX="291.0" layoutY="98.0" mnemonicParsing="false" onAction="#insertTerapyButton_clicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: trasparent;">
+                  <Button fx:id="insertTerapyButton" layoutX="291.0" layoutY="98.0" mnemonicParsing="false" onAction="#insertTerapyButton_clicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;">
                      <graphic>
                         <ImageView fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                            <image>
