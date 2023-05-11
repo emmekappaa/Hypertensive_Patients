@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -22,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -29,8 +31,9 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Diagnosis;
@@ -160,19 +163,28 @@ public class controllerPatientInfo implements Initializable {
     @FXML
     private Text drugThearpy;
 
+    @FXML
+    private ImageView ChangeImage;
+    
+
 	private Patient infoPerson;
 	Session session = Session.getInstance();
 	Model model = null;
 
 	boolean modify = false;
 	boolean modify1 = false;
+
+	ArrayList<String> listaTerap;
 	
 	@FXML
     void modifyPathology_clicked(ActionEvent event) {
 		modify1 = !modify1;
-
+		//ImageView ChangeImage = null;
+		//Image newImage = new Image(getClass().getResourceAsStream("../images/cancel.png"));
+		
 		if (modify1 == true) {
 			modifyTherapy.setText("Discard");
+			//ChangeImage.setImage(newImage);//<---- qui va la X rossa 
 			addPatologies.setText("Modify therapy");
 		} else {
 			modifyTherapy.setText("Modify");
@@ -201,9 +213,10 @@ public class controllerPatientInfo implements Initializable {
 			modify1 = !modify1;
 			if (modify1 == true) {
 				modifyPathology.setText("Discard changes");
+				
 				addPatologies.setText("Modify therapy");
 			} else {
-				modifyPathology.setText("Modify");
+				modifyPathology.setText("Modify");//<---- qui va la +
 				addPatologies.setText("Insert therapy");
 			}
 			System.out.println("Devi selezionare una riga da modificare!");
@@ -220,15 +233,22 @@ public class controllerPatientInfo implements Initializable {
 	@FXML
 	void modifyTherapy_clicked(ActionEvent event) {
 		modify = !modify;
-
+		
+		
+	
+	    
 		if (modify == true) {
-			modifyTherapy.setText("Discard");
-			insertTerapyButton.setText("Modify therapy");
+			//modifyTherapy.setText("Discard");
+			//insertTerapyButton.setText("Modify therapy");
+			
+			ChangeImage.setImage(new Image("/images/cancel.png"));
 			statusChoice.setVisible(true);
 			statusLabel.setVisible(true);
 		} else {
-			modifyTherapy.setText("Modify");
-			insertTerapyButton.setText("Insert therapy");
+			//modifyTherapy.setText("Modify");
+			//insertTerapyButton.setText("Insert therapy");
+			
+			ChangeImage.setImage(new Image("/images/pen.png"));
 			statusChoice.setVisible(false);
 			statusLabel.setVisible(false);
 
@@ -241,6 +261,7 @@ public class controllerPatientInfo implements Initializable {
 			if (!modify) { // se schiaccio di nuovo modifica per annullare cambio i campi
 				clearTherapiesField();
 			} else { // altrimenti devo settare i campi
+				listaTerap.remove(drugChoice.getValue());
 				drugChoice.valueProperty().set(th.getID_Drug());
 				assumptionChoice.valueProperty().set(Integer.toString(th.getAssumptions()));
 				statusChoice.valueProperty().set(th.getStatus());
@@ -250,13 +271,16 @@ public class controllerPatientInfo implements Initializable {
 		} catch (Exception e) {
 			modify = !modify;
 			if (modify == true) {
-				modifyTherapy.setText("Discard changes");
-				insertTerapyButton.setText("Modify therapy");
+				//modifyTherapy.setText("Discard changes");
+				//<---- qui va la X rossa 
+				ChangeImage.setImage(new Image("/images/cancel.png"));
+				//insertTerapyButton.setText("Modify therapy");
 				statusChoice.setVisible(true);
 				statusLabel.setVisible(true);
 			} else {
-				modifyTherapy.setText("Modify");
-				insertTerapyButton.setText("Insert therapy");
+				//modifyTherapy.setText("Modify");//<---- qui va la +
+				//insertTerapyButton.setText("Insert therapy");
+				ChangeImage.setImage(new Image("/images/pen.png"));
 				statusChoice.setVisible(false);
 				statusLabel.setVisible(false);
 
@@ -399,14 +423,14 @@ public class controllerPatientInfo implements Initializable {
 		
 		//Therapy th = therapiesTable.getSelectionModel().getSelectedItem();
 		
-		if(!quantity.getText().isEmpty() && !description.getText().isEmpty()){
+		if(!quantity.getText().isEmpty() && !description.getText().isEmpty() && !listaTerap.contains(drugChoice.getValue())){
 			String CF_doctor = (String) infoPerson.getCF_doctor();
 			String CF_patient = session.getCF_shmem();
 			String Drug = drugChoice.getValue();
 			Integer Quantity = Integer.parseInt(quantity.getText());
 			Integer Assumption = Integer.parseInt(assumptionChoice.getValue());
 			String Indication = description.getText();
-
+			
 			if (modify == true) {
 
 				Therapy th = therapiesTable.getSelectionModel().getSelectedItem();
@@ -435,6 +459,8 @@ public class controllerPatientInfo implements Initializable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+				listaTerap.add(drugChoice.getValue());
 				
 			}
 
@@ -442,8 +468,9 @@ public class controllerPatientInfo implements Initializable {
 				modify = false;
 			}
 			if (modify == false) {
-				insertTerapyButton.setText("Insert therapy");
-				modifyTherapy.setText("Modify");
+				//insertTerapyButton.setText("Insert therapy");
+				//modifyTherapy.setText("Modify");
+				ChangeImage.setImage(new Image("/images/pen.png"));
 				statusChoice.setVisible(false);
 				statusLabel.setVisible(false);
 			}
@@ -463,7 +490,12 @@ public class controllerPatientInfo implements Initializable {
 		}
 		else {
 			alertInput.setTitle("Error Input");
-    		alertInput.setHeaderText("You need to fill all the fields before!");
+    		if(listaTerap.contains(drugChoice.getValue())){
+				alertInput.setHeaderText("Drugs already in an ongoing therapy!");
+			}
+			else{
+				alertInput.setHeaderText("You need to fill all the fields before!");
+			}
             // show the dialog
     		alertInput.show();
 		}
@@ -510,6 +542,9 @@ public class controllerPatientInfo implements Initializable {
 		
 		alertInput = new  Alert(AlertType.NONE);
 		alertInput.setAlertType(AlertType.ERROR);
+		
+		
+		
 		
 		DialogPane dialogPane = alertInput.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());
@@ -576,6 +611,7 @@ public class controllerPatientInfo implements Initializable {
 		startPath.valueProperty().set(null);
 		endPath.valueProperty().set(null);
 		choicePatologies.getSelectionModel().selectFirst();
+		startPath.setValue(LocalDate.of(2010,1,1));
 	}
 
 	private void setTablePath() {
@@ -601,6 +637,13 @@ public class controllerPatientInfo implements Initializable {
 		columnPathology.setCellValueFactory(new PropertyValueFactory<>("ID"));
 		columnStart.setCellValueFactory(new PropertyValueFactory<>("StartDate"));
 		columnEnd.setCellValueFactory(new PropertyValueFactory<>("EndDate"));
+
+		listaTerap = new ArrayList<>();
+		for(Therapy p : infoPerson.getTherapies()) {
+			if(p.getStatus().equals("ongoing")) {
+				listaTerap.add(p.getID_Drug());
+			}
+		}
 	}
 
 }

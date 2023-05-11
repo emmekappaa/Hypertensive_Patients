@@ -125,6 +125,7 @@ public class controllerDoctor implements Initializable {
 		
 		alertInput = new  Alert(AlertType.NONE);
 		alertInput.setAlertType(AlertType.ERROR);
+		tablePatient.getStylesheets().add(getClass().getResource("../style/style1.css").toExternalForm());
 		
 		DialogPane dialogPane = alertInput.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());

@@ -14,13 +14,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerPatient">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" side="BOTTOM" stylesheets="@../../bin/style/style1.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerPatient">
     <tabs>
         <Tab style="-fx-background-color: #2540b0;">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                  <ImageView fitHeight="406.0" fitWidth="698.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="415.0" fitWidth="699.0" layoutX="-24.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/background.png" />
                      </image>
@@ -114,7 +114,7 @@
                         <Image url="@../images/field.png" />
                      </image>
                   </ImageView>
-                  <TextArea fx:id="sbpField" layoutX="112.0" layoutY="134.0" prefHeight="22.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-border-radius: 10%;">
+                  <TextArea fx:id="sbpField" layoutX="112.0" layoutY="134.0" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: transparent; -fx-border-radius: 10%;">
                      <font>
                         <Font size="8.0" />
                      </font>
@@ -123,12 +123,12 @@
                      <font>
                         <Font name="Monospaced Regular" size="19.0" />
                      </font></Label>
-                  <ImageView fitHeight="28.0" fitWidth="101.0" layoutX="103.0" layoutY="201.0" pickOnBounds="true">
+                  <ImageView fitHeight="32.0" fitWidth="101.0" layoutX="103.0" layoutY="201.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/field.png" />
                      </image>
                   </ImageView>
-                  <TextArea fx:id="dbpField" layoutX="112.0" layoutY="201.0" prefHeight="12.0" prefWidth="82.0" style="-fx-background-color: transparent;">
+                  <TextArea fx:id="dbpField" layoutX="115.0" layoutY="203.0" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: transparent;">
                      <font>
                         <Font size="8.0" />
                      </font>

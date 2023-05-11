@@ -113,6 +113,7 @@ public class controllerLogin implements Initializable {
 		
 		// inizializzo il choice box con in due parametri interessati
 		String[] choice = { "Doctor", "Patient" };
+		choiceField.getStylesheets().add(getClass().getResource("../style/style1.css").toExternalForm());
 		choiceField.getItems().addAll(choice);
 		choiceField.getSelectionModel().selectFirst();
 		

@@ -20,14 +20,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="906.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerPatientInfo">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="906.0" side="BOTTOM" stylesheets="@../../bin/style/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerPatientInfo">
     
     <tabs>
-        <Tab style="-fx-background-color: #2540af; -fx-pref-width: 38px; -fx-pref-height: 38px; -fx-aligment: center;">
+        <Tab style="-fx-background-color: #2540af; -fx-pref-width: 40px; -fx-pref-height: 40px; -fx-aligment: center;">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="600.0" fitWidth="936.0" layoutX="-7.0" layoutY="-18.0" pickOnBounds="true">
+                  <ImageView fitHeight="578.0" fitWidth="939.0" layoutX="-7.0" layoutY="-18.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/background.png" />
                      </image>
@@ -62,7 +62,7 @@
                      </image>
                   </ImageView>
                   <Line endX="215.0" endY="247.0" layoutX="228.0" layoutY="279.0" startX="215.0" startY="23.0" />
-                  <TableView fx:id="infoTable" layoutX="501.0" layoutY="43.0" prefHeight="211.0" prefWidth="332.0">
+                  <TableView fx:id="infoTable" layoutX="501.0" layoutY="43.0" prefHeight="211.0" prefWidth="332.0" style="-fx-color: #2540b0; -fx-background-color: #6792d5;" stylesheets="@../style/style1.css">
                     <columns>
                       <TableColumn fx:id="dateInfoColumn" prefWidth="110.4000244140625" text="Date" />
                       <TableColumn fx:id="infoInfoColumn" minWidth="0.0" prefWidth="98.0" text="Info" />
@@ -74,7 +74,7 @@
                         <Font name="Monospaced Bold" size="29.0" />
                      </font>
                   </Text>
-                  <TableView fx:id="tablePathology" layoutX="469.0" layoutY="303.0" prefHeight="222.0" prefWidth="345.0">
+                  <TableView fx:id="tablePathology" layoutX="469.0" layoutY="303.0" prefHeight="222.0" prefWidth="345.0" style="-fx-background-color: #6792d5; -fx-color: #2540b0;" stylesheets="@../../bin/style/style1.css">
                      <columns>
                         <TableColumn fx:id="columnPathology" prefWidth="151.0" text="Patologia" />
                         <TableColumn fx:id="columnStart" editable="false" prefWidth="99.0" text="Start" />
@@ -82,12 +82,19 @@
                      </columns>
                   </TableView>
                   <TextArea fx:id="descriptionInfo" layoutX="74.0" layoutY="211.0" prefHeight="23.0" prefWidth="200.0" />
-                  <Button fx:id="addPatologies" layoutX="272.0" layoutY="402.0" mnemonicParsing="false" onAction="#addPatologies_clicked" text="Add pathology" />
-                  <Button fx:id="addInfo" layoutX="316.0" layoutY="216.0" mnemonicParsing="false" onAction="#addInfo_clicked" prefHeight="25.0" prefWidth="95.0" text="Add Info" />
+                  <Button fx:id="addPatologies" layoutX="272.0" layoutY="402.0" mnemonicParsing="false" onAction="#addPatologies_clicked" style="-fx-background-color: #1282cc; -fx-text-fill: #ffffff;" text="ADD PATHOLOGY" />
+                  <Button fx:id="addInfo" layoutX="316.0" layoutY="216.0" mnemonicParsing="false" onAction="#addInfo_clicked" prefHeight="25.0" prefWidth="95.0" style="-fx-background-color: #1282cc; -fx-text-fill: #ffffff;" text="ADD INFO" />
                   <DatePicker fx:id="startPath" layoutX="112.0" layoutY="359.0" prefHeight="26.0" prefWidth="112.0" />
-                  <ChoiceBox fx:id="choicePatologies" layoutX="253.0" layoutY="358.0" prefHeight="24.0" prefWidth="115.0" />
-                  <Button fx:id="exitButton" layoutX="825.0" layoutY="501.0" mnemonicParsing="false" onAction="#exitButton_clicked" text="Exit" />
-                  <Text fx:id="labelCF" fontSmoothingType="LCD" layoutX="334.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="null" wrappingWidth="82.595703125">
+                  <ChoiceBox fx:id="choicePatologies" layoutX="253.0" layoutY="358.0" prefHeight="24.0" prefWidth="115.0" style="-fx-background-color: #1282cc;" />
+                  <Button fx:id="exitButton" layoutX="817.0" layoutY="478.0" mnemonicParsing="false" onAction="#exitButton_clicked" prefHeight="46.0" prefWidth="51.0" style="-fx-background-color: white;">
+                     <graphic>
+                        <ImageView fitHeight="43.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Text fx:id="labelCF" fontSmoothingType="LCD" layoutX="334.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="null" wrappingWidth="82.595703125">
                      <font>
                         <Font name="Tahoma" size="20.0" />
                      </font>
@@ -101,7 +108,7 @@
                      <font>
                         <Font name="Monospaced Bold" size="12.0" />
                      </font></Text>
-                  <Button fx:id="modifyPathology" layoutX="318.0" layoutY="489.0" mnemonicParsing="false" onAction="#modifyPathology_clicked" text="Modify" />
+                  <Button fx:id="modifyPathology" layoutX="318.0" layoutY="489.0" mnemonicParsing="false" onAction="#modifyPathology_clicked" style="-fx-background-color: #1282cc; -fx-text-fill: #ffffff;" text="MODIFY" />
                   <Text fontSmoothingType="LCD" layoutX="74.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hypertension:">
                      <font>
                         <Font name="Monospaced Bold" size="18.0" />
@@ -156,14 +163,14 @@
                       <NumberAxis side="LEFT" />
                     </yAxis>
                   </LineChart>
-                  <TableView fx:id="diagnosisTable" layoutX="69.0" layoutY="344.0" prefHeight="187.0" prefWidth="795.0">
+                  <TableView fx:id="diagnosisTable" layoutX="69.0" layoutY="344.0" prefHeight="187.0" prefWidth="795.0" style="-fx-background-color: #6792d5; -fx-color: #2540b0;" stylesheets="@../../bin/style/style1.css">
                     <columns>
                       <TableColumn fx:id="dateDiagnosis" prefWidth="439.5999336242676" text="Date" />
                       <TableColumn fx:id="patologyDiagnosis" prefWidth="363.20001220703125" text="Patology" />
                     </columns>
                   </TableView>
                   <DatePicker fx:id="startDateChart" layoutX="701.0" layoutY="74.0" prefHeight="32.0" prefWidth="143.0" />
-                  <Button fx:id="showDataChart" layoutX="737.0" layoutY="221.0" mnemonicParsing="false" onAction="#showDataChart_clicked" text="Show data" />
+                  <Button fx:id="showDataChart" layoutX="737.0" layoutY="221.0" mnemonicParsing="false" onAction="#showDataChart_clicked" style="-fx-background-color: #1282cc; -fx-text-fill: #ffffff;" text="SHOW DATA" />
                   <Text layoutX="701.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="START DATE">
                      <font>
                         <Font name="Monospaced Regular" size="21.0" />
@@ -190,7 +197,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="590.0" fitWidth="926.0" layoutX="-20.0" layoutY="-3.0" pickOnBounds="true">
+                  <ImageView fitHeight="619.0" fitWidth="926.0" layoutX="-20.0" layoutY="-3.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/background.png" />
                      </image>
@@ -201,7 +208,7 @@
                   <Rectangle arcHeight="50.0" arcWidth="50.0" fill="WHITE" height="482.0" layoutX="35.0" layoutY="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="237.0" />
                   <Rectangle arcHeight="50.0" arcWidth="50.0" fill="WHITE" height="313.0" layoutX="350.0" layoutY="85.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="552.0" />
                   <Rectangle arcHeight="50.0" arcWidth="50.0" fill="WHITE" height="138.0" layoutX="288.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="62.0" />
-                  <TableView fx:id="therapiesTable" layoutX="358.0" layoutY="112.0" prefHeight="254.0" prefWidth="536.0">
+                  <TableView fx:id="therapiesTable" layoutX="358.0" layoutY="112.0" prefHeight="254.0" prefWidth="536.0" style="-fx-color: #2540b0; -fx-background-color: #6792d5;" stylesheets="@../../bin/style/style1.css">
                      <columns>
                         <TableColumn fx:id="drugColumn" prefWidth="86.79996109008789" text="Drug" />
                         <TableColumn fx:id="qtyColumn" prefWidth="126.80005645751953" text="Quantity" />
@@ -210,15 +217,15 @@
                         <TableColumn fx:id="statusColumn" prefWidth="117.86666870117188" text="Status" />
                      </columns>
                   </TableView>
-                  <Button fx:id="modifyTherapy" layoutX="289.0" layoutY="156.0" mnemonicParsing="false" onAction="#modifyTherapy_clicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: trasparent;" visible="true">
+                  <Button fx:id="modifyTherapy" layoutX="290.0" layoutY="156.0" mnemonicParsing="false" onAction="#modifyTherapy_clicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: transparent;" visible="true">
                      <graphic>
-                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="ChangeImage" fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/pen.png" />
                            </image>
                         </ImageView>
                      </graphic></Button>
-                  <Text layoutX="122.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drug:">
+                  <Text layoutX="121.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drug:">
                      <font>
                         <Font name="Monospaced Regular" size="20.0" />
                      </font>
@@ -238,8 +245,8 @@
                         <Font name="Monospaced Regular" size="20.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="drugChoice" layoutX="113.0" layoutY="137.0" prefHeight="27.0" prefWidth="70.0" />
-                  <ChoiceBox fx:id="assumptionChoice" layoutX="112.0" layoutY="193.0" prefHeight="27.0" prefWidth="70.0" />
+                  <ChoiceBox fx:id="drugChoice" layoutX="113.0" layoutY="137.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #1282cc; -fx-text-fill: #ffffff;" />
+                  <ChoiceBox fx:id="assumptionChoice" layoutX="112.0" layoutY="193.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #1282cc; -fx-text-fill: #ffffff;" />
                   <TextArea fx:id="quantity" layoutX="67.0" layoutY="328.0" prefHeight="38.0" prefWidth="174.0" />
                   <TextArea fx:id="description" layoutX="56.0" layoutY="405.0" prefHeight="85.0" prefWidth="193.0" />
                   <Button fx:id="insertTerapyButton" layoutX="291.0" layoutY="98.0" mnemonicParsing="false" onAction="#insertTerapyButton_clicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: trasparent;">
@@ -255,7 +262,7 @@
                         <Font name="Monospaced Regular" size="20.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="statusChoice" layoutX="112.0" layoutY="264.0" prefHeight="27.0" prefWidth="70.0" />
+                  <ChoiceBox fx:id="statusChoice" layoutX="112.0" layoutY="264.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #1282cc; -fx-text-fill: #ffffff;" />
                   <ImageView fitHeight="19.0" fitWidth="235.0" layoutX="36.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/addnewthewr.png" />
@@ -265,7 +272,7 @@
             </AnchorPane>
          </content>
          <graphic>
-            <ImageView fitHeight="27.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/patient%20(1).png" />
                </image>

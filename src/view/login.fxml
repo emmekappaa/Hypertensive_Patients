@@ -53,7 +53,7 @@
             <Font name="Constantia" size="15.0" />
          </font>
       </Text>
-      <ChoiceBox fx:id="choiceField" layoutX="344.0" layoutY="264.0" prefWidth="150.0" style="-fx-background-color: #1378c8;" />
+      <ChoiceBox fx:id="choiceField" layoutX="344.0" layoutY="264.0" prefWidth="150.0" style="-fx-background-color: #1378c8; -fx-fill-text: #ffffff;" stylesheets="@../style/style1.css" />
       <Text layoutX="375.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD:" wrappingWidth="93.33648681640625">
          <font>
             <Font name="Monospaced Regular" size="17.0" />
@@ -85,7 +85,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <ImageView fitHeight="373.0" fitWidth="303.0" layoutX="-7.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="406.0" fitWidth="349.0" layoutX="-14.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/duo.png" />
          </image>
