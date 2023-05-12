@@ -15,6 +15,11 @@ import model.Model;
 
 public class ModelTest {
 
+	/**
+	 * Tests the logging functionality of the Model class.
+	 *
+	 * @throws SQLException if an SQL exception occurs
+	 */
 	@Test
 	public void testLog() throws SQLException {
 
@@ -30,6 +35,11 @@ public class ModelTest {
 		assertEquals(expectedOutput, printedOutput);
 	}
 
+	/**
+	 * Tests the database connection functionality of the Model class.
+	 *
+	 * @throws SQLException if a SQL exception occurs
+	 */
 	@Test
 	public void testConnect() throws SQLException {
 		String url = "jdbc:sqlite:table.db";
@@ -40,6 +50,11 @@ public class ModelTest {
 		assertTrue("Connection is closed", !conn.isClosed());
 	}
 
+	/**
+	 * Tests the execution of a database query using the Model class.
+	 *
+	 * @throws SQLException if a SQL exception occurs
+	 */
 	@Test
 	public void testRunQuery() throws SQLException {
 		var m = Model.getInstance();
@@ -51,6 +66,11 @@ public class ModelTest {
 		assertTrue("ResultSet is empty", rs.next());
 	}
 
+	/**
+	 * Tests the getInstance() method of the Model class.
+	 *
+	 * @throws SQLException if an SQL exception occurs
+	 */
 	@Test
 	public void testGetInstance() throws SQLException {
 
@@ -63,6 +83,11 @@ public class ModelTest {
 		assertSame("Model instances are not the same object", m1, m2);
 	}
 
+	/**
+	 * Tests the tableExists() method of the Model class.
+	 *
+	 * @throws SQLException if an SQL exception occurs
+	 */
 	@Test
 	public void testTableExists() throws SQLException {
 		var m = Model.getInstance();
@@ -74,12 +99,15 @@ public class ModelTest {
 		assertFalse("Table exists", m.tableExists("tommaso"));
 	}
 
+	/**
+	 * Tests the checkLogin() method of the Model class.
+	 */
 	@Test
 	public void testCheckLogin() {
 
-		// Verifico:
-		// -Quando le credenziali di accesso sono corrette
-		// -Quando la password inserita non è corretta
+		// Verify:
+		// - When the login credentials are correct
+		// - When the password entered is incorrect
 
 		// Creazione dell'istanza del modello
 		Model model = null;

@@ -25,6 +25,11 @@ import model.Doctor;
 import model.Model;
 import model.Patient;
 
+/**
+ * 
+ * The controller class for the doctor's functionality. This class handles the
+ * display of patient information and search functionality.
+ */
 public class controllerDoctor implements Initializable {
 
 	@FXML
@@ -59,7 +64,7 @@ public class controllerDoctor implements Initializable {
 	private TableColumn<Patient, String> surname;
 	@FXML
 	private TableColumn<Patient, String> cf;
-	
+
 	@FXML
 	private TableColumn<Patient, String> hypertensiveColumn;
 
@@ -69,6 +74,14 @@ public class controllerDoctor implements Initializable {
 
 	Session session = Session.getInstance();
 
+	/**
+	 * 
+	 * Handles the event when the "Exit" button is clicked. It redirects the user to
+	 * the login page.
+	 * 
+	 * @param event The action event.
+	 * @throws IOException if an I/O error occurs.
+	 */
 	@FXML
 	void exitClicked(ActionEvent event) throws IOException {
 		FXMLLoader fxmlLoaderlogged = new FXMLLoader(controllerPatient.class.getResource("../view/login.fxml"));
@@ -80,6 +93,14 @@ public class controllerDoctor implements Initializable {
 
 	}
 
+	/**
+	 * 
+	 * Handles the event when the "Find" button is clicked. It searches for a
+	 * patient based on the entered CF (Codice Fiscale).
+	 * 
+	 * @param event The action event.
+	 * @throws IOException if an I/O error occurs.
+	 */
 	@FXML
 	void findClicked(ActionEvent event) throws IOException {
 
@@ -95,42 +116,50 @@ public class controllerDoctor implements Initializable {
 		}
 
 		if (CF_detected == true) {
-			
+
 			// singleton per condivisione email
 			Session session = Session.getInstance();
 			session.setCF_shmem(tmp_patient_CF);
-			
-			FXMLLoader fxmlLoaderlogged = new FXMLLoader(controllerPatient.class.getResource("../view/patientInfo.fxml"));
+
+			FXMLLoader fxmlLoaderlogged = new FXMLLoader(
+					controllerPatient.class.getResource("../view/patientInfo.fxml"));
 			Stage currentStage = (Stage) exit.getScene().getWindow();
 			Scene scenePatientInfo = new Scene(fxmlLoaderlogged.load());
 			currentStage.setTitle("Patient Info");
 			currentStage.setScene(scenePatientInfo);
 			currentStage.show();
-		} 
-		else 
-		{
-			//System.out.println("Paziente non trovato!!"); //deve diventare alert, a me non trova la classe
+		} else {
+			// System.out.println("Paziente non trovato!!"); //deve diventare alert, a me
+			// non trova la classe
 			alertInput.setTitle("Error Query");
-    		alertInput.setHeaderText("Patient not found!");
-            // show the dialog
-    		alertInput.show();
+			alertInput.setHeaderText("Patient not found!");
+			// show the dialog
+			alertInput.show();
 		}
 
 	}
 
 	Alert alertInput;
-	
+
+	/**
+	 * 
+	 * Initializes the controller by setting up the necessary components and
+	 * retrieving data.
+	 * 
+	 * @param arg0 The URL of the location used to resolve relative paths.
+	 * @param arg1 The ResourceBundle that contains locale-specific objects.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		alertInput = new  Alert(AlertType.NONE);
+
+		alertInput = new Alert(AlertType.NONE);
 		alertInput.setAlertType(AlertType.ERROR);
 		tablePatient.getStylesheets().add(getClass().getResource("../style/style1.css").toExternalForm());
-		
+
 		DialogPane dialogPane = alertInput.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());
 		dialogPane.getStyleClass().add("myDialog");
-		
+
 		try {
 			model = Model.getInstance();
 			infoPerson = (Doctor) model.retrieveInfoByEmail(session.getMail(), "doctor");

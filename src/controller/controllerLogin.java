@@ -21,6 +21,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import model.Model;
 
+/**
+ * 
+ * This class is the controller for the login functionality of the application.
+ * It handles user login and navigation to different views based on user role.
+ */
 public class controllerLogin implements Initializable {
 
 	@FXML
@@ -28,12 +33,12 @@ public class controllerLogin implements Initializable {
 
 	@FXML
 	private Button loginButton;
-	
+
 	@FXML
 	private ImageView logo;
 
-    @FXML
-    private PasswordField paswordField;
+	@FXML
+	private PasswordField paswordField;
 
 	@FXML
 	private TextField usernameField;
@@ -47,6 +52,12 @@ public class controllerLogin implements Initializable {
 
 	Model model = null;
 
+	/**
+	 * Handles the action when the login button is clicked.
+	 *
+	 * @param event the event triggered by clicking the login button
+	 * @throws IOException if an I/O error occurs during loading of the new scene
+	 */
 	@FXML
 	void loginButtonClicked(ActionEvent event) throws IOException {
 		String choiced = (String) choiceField.getValue();
@@ -60,18 +71,17 @@ public class controllerLogin implements Initializable {
 		if (usernameField.getText().isEmpty() || paswordField.getText().isEmpty()) {
 			System.out.println("Inserisci credenziali");
 			alertInput.setTitle("ERROR LOGIN");
-    		alertInput.setHeaderText("PLEASE INSERT EMAIL AND PASSWORD FIELD!");
-            // show the dialog
-    		alertInput.show();
+			alertInput.setHeaderText("PLEASE INSERT EMAIL AND PASSWORD FIELD!");
+			// show the dialog
+			alertInput.show();
 		}
 		if (!credentials.containsKey(usernameField.getText())) {
-			//System.out.println("email non presente");
+			// System.out.println("email non presente");
 			alertInput.setTitle("ERROR LOGIN");
-    		alertInput.setHeaderText("WRONG EMAIL!");
-            // show the dialog
-    		alertInput.show();
-		}
-		else {
+			alertInput.setHeaderText("WRONG EMAIL!");
+			// show the dialog
+			alertInput.show();
+		} else {
 			// controlliamo la password
 
 			if (model.checkLogin(usernameField.getText(), paswordField.getText(),
@@ -97,30 +107,38 @@ public class controllerLogin implements Initializable {
 				currentStage.show();
 
 			} else {
-				//System.out.println("Password errata");
+				// System.out.println("Password errata");
 				alertInput.setTitle("ERROR LOGIN");
-	    		alertInput.setHeaderText("WRONG PASSWORD");
-	            // show the dialog
-	    		alertInput.show();
+				alertInput.setHeaderText("WRONG PASSWORD");
+				// show the dialog
+				alertInput.show();
 			}
 		}
 	}
 
 	Alert alertInput;
-	
+
+	/**
+	 * 
+	 * Initializes the controller class. Sets up the choice box with "Doctor" and
+	 * "Patient" options. Configures the alert dialog for displaying errors.
+	 * Initializes the model and retrieves credentials from the database.
+	 * 
+	 * @param arg0 The URL of the location used to resolve relative paths.
+	 * @param arg1 The ResourceBundle that contains locale-specific objects.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		// inizializzo il choice box con in due parametri interessati
 		String[] choice = { "Doctor", "Patient" };
 		choiceField.getStylesheets().add(getClass().getResource("../style/style1.css").toExternalForm());
 		choiceField.getItems().addAll(choice);
 		choiceField.getSelectionModel().selectFirst();
-		
-		alertInput = new  Alert(AlertType.NONE);
+
+		alertInput = new Alert(AlertType.NONE);
 		alertInput.setAlertType(AlertType.ERROR);
-		
-		
+
 		DialogPane dialogPane = alertInput.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("../style/myDialog.css").toExternalForm());
 		dialogPane.getStyleClass().add("myDialog");
