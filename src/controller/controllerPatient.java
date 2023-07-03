@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
@@ -78,6 +79,7 @@ public class controllerPatient implements Initializable {
 	Alert alertInput;
 
 	ObservableList<String> symptoms;
+	List<String> medicine;
 
 	/**
 	 * 
@@ -232,7 +234,8 @@ public class controllerPatient implements Initializable {
 				// TODO Auto-generated method stub
 				// aggiorno infoBox
 				try {
-					infoDrugArea.setText(model.getInfoDrug(choiceDrug.getValue(), infoPerson.getCF()));
+					infoDrugArea.setText(model.getInfoDrug(medicine.get((int) arg2), infoPerson.getCF())); 
+					
 				} catch (Exception e) {
 					System.out.println("Select drug first!");
 				}
@@ -249,6 +252,7 @@ public class controllerPatient implements Initializable {
 			symptomList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 			symptomList.setItems(symptoms);
 			namePatient1.setText(model.getSurnameDoctorByCF(infoPerson.getCF_doctor()));
+			medicine = model.getAvaiableDrugs(infoPerson.getCF());
 		} catch (SQLException e) {
 
 			e.printStackTrace();

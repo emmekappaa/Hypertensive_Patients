@@ -166,7 +166,7 @@
                   <TableView fx:id="diagnosisTable" layoutX="69.0" layoutY="344.0" prefHeight="187.0" prefWidth="795.0" style="-fx-background-color: #6792d5; -fx-color: #2540b0;" stylesheets="@../../bin/style/style1.css">
                     <columns>
                       <TableColumn fx:id="dateDiagnosis" prefWidth="439.5999336242676" text="Date" />
-                      <TableColumn fx:id="patologyDiagnosis" prefWidth="363.20001220703125" text="Patology" />
+                      <TableColumn fx:id="patologyDiagnosis" prefWidth="363.20001220703125" text="Symptom" />
                     </columns>
                   </TableView>
                   <DatePicker fx:id="startDateChart" layoutX="701.0" layoutY="74.0" prefHeight="32.0" prefWidth="143.0" />
