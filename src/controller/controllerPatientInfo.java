@@ -198,12 +198,12 @@ public class controllerPatientInfo implements Initializable {
 		// Image(getClass().getResourceAsStream("../images/cancel.png"));
 
 		if (modify1 == true) {
-			modifyTherapy.setText("Discard");
+			modifyPathology.setText("Discard");
 			// ChangeImage.setImage(newImage);//<---- qui va la X rossa
-			addPatologies.setText("Modify therapy");
+			addPatologies.setText("Modify Pathology");
 		} else {
-			modifyTherapy.setText("Modify");
-			addPatologies.setText("Insert therapy");
+			modifyPathology.setText("Modify");
+			addPatologies.setText("Insert Pathology");
 
 		}
 
@@ -231,10 +231,10 @@ public class controllerPatientInfo implements Initializable {
 			if (modify1 == true) {
 				modifyPathology.setText("Discard changes");
 
-				addPatologies.setText("Modify therapy");
+				addPatologies.setText("Modify Pathology");
 			} else {
 				modifyPathology.setText("Modify");// <---- qui va la +
-				addPatologies.setText("Insert therapy");
+				addPatologies.setText("Insert Pathology");
 			}
 			System.out.println("Devi selezionare una riga da modificare!");
 		}
@@ -475,7 +475,7 @@ public class controllerPatientInfo implements Initializable {
 			modify1 = false;
 		}
 		if (modify1 == false) {
-			addPatologies.setText("Insert therapy");
+			addPatologies.setText("ADD PATHOLOGY");
 			modifyPathology.setText("Modify");
 		}
 
