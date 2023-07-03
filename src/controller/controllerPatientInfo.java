@@ -642,7 +642,12 @@ public class controllerPatientInfo implements Initializable {
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 
-			infoTable.getItems().add(new Info(CF_doctor, infoText, dtf.format(now).toString()));
+			try {
+				infoTable.getItems().add(new Info(model.getSurnameDoctorByCF(CF_doctor), infoText, dtf.format(now).toString()));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			descriptionInfo.clear();
 		} else {
