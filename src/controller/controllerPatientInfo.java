@@ -442,44 +442,54 @@ public class controllerPatientInfo implements Initializable {
 	 */
 	@FXML
 	void addPatologies_clicked(ActionEvent event) throws SQLException {
-		String id_pat = (String) choicePatologies.getValue();
-		String start = startPath.getValue().toString();
-		String end = null;
-
-		try {
-			end = endPath.getValue().toString();
-		} catch (Exception e) {
-		}
-		try {
-			if (modify1) {
-				try {
-					end = endPath.getValue().toString();
-				} catch (Exception e) {
-				}
-				model.updatePathology(id_pat, infoPerson.getCF(), start, end);
-			} else {
-				model.insertPathology(id_pat, infoPerson.getCF(), start, end);
+		if(startPath.getValue() != null)
+		{
+		
+			String id_pat = (String) choicePatologies.getValue();
+			String start = startPath.getValue().toString();
+			String end = null;
+	
+			try {
+				end = endPath.getValue().toString();
+			} catch (Exception e) {
 			}
-		} catch (SQLException e) {
+			try {
+				if (modify1) {
+					try {
+						end = endPath.getValue().toString();
+					} catch (Exception e) {
+					}
+					model.updatePathology(id_pat, infoPerson.getCF(), start, end);
+				} else {
+					model.insertPathology(id_pat, infoPerson.getCF(), start, end);
+				}
+			} catch (SQLException e) {
+			}
+			tablePathology.getItems().add(new Pathology(id_pat, "", start, end));
+			// System.out.println(id_pat+"start: "+start+" end: "+end);
+	
+			// rimuovo il record vecchio la tabella
+			ObservableList<Pathology> allPh, singlePh;
+			allPh = tablePathology.getItems();
+			singlePh = tablePathology.getSelectionModel().getSelectedItems();
+			singlePh.forEach(allPh::remove);
+	
+			if (modify1 == true) {
+				modify1 = false;
+			}
+			if (modify1 == false) {
+				addPatologies.setText("ADD PATHOLOGY");
+				modifyPathology.setText("Modify");
+			}
+	
+			clearTherapiesField1();
 		}
-		tablePathology.getItems().add(new Pathology(id_pat, "", start, end));
-		// System.out.println(id_pat+"start: "+start+" end: "+end);
-
-		// rimuovo il record vecchio la tabella
-		ObservableList<Pathology> allPh, singlePh;
-		allPh = tablePathology.getItems();
-		singlePh = tablePathology.getSelectionModel().getSelectedItems();
-		singlePh.forEach(allPh::remove);
-
-		if (modify1 == true) {
-			modify1 = false;
+		else 
+		{
+			alertInput.setTitle("Error Input");
+			alertInput.setHeaderText("Please insert start date");
+			alertInput.show();
 		}
-		if (modify1 == false) {
-			addPatologies.setText("ADD PATHOLOGY");
-			modifyPathology.setText("Modify");
-		}
-
-		clearTherapiesField1();
 	}
 
 	String globalTherapyChoiced;
