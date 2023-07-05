@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import controller.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -776,9 +777,11 @@ public class Model {
 	 * @throws SQLException If there was an error executing the SQL query.
 	 */
 	public ObservableList<Diagnosis> getDiagnosis(String start, String end) throws SQLException {
-
+		
+		Session session = Session.getInstance();
+		
 		ObservableList<Diagnosis> list = FXCollections.observableArrayList();
-		String query = "SELECT * FROM diagnosis WHERE DATE BETWEEN '" + start + "' and '" + end + "'";
+		String query = "SELECT * FROM diagnosis WHERE DATE BETWEEN '" + start + "' and '" + end + "' AND CF_Patient = '"+session.getCF_shmem()+"'";
 		log(query);
 		ResultSet rs = runQuery(query);
 		while (rs.next()) {
@@ -1068,7 +1071,7 @@ public class Model {
 
 		String query = "SELECT AVG(" + column + ") as avgData FROM diagnosis WHERE CF_Patient='" + CF
 				+ "' and Date BETWEEN '" + past.toString() + "' and '" + now.toString() + "'";
-		// log(query);
+		//log(query);
 		ResultSet rs = runQuery(query);
 		try {
 			// String stringa = rs.getString("avgData");
