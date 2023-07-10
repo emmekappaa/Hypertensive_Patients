@@ -21,9 +21,9 @@ Il progetto mira a sviluppare un sistema di telemedicina per la gestione di pazi
 Il repository è organizzato nel seguente modo:
 
 - `documentazione`: Contiene la documentazione relativa al progetto, come specifiche tecniche e guide utente.
-- `codice`: Contiene il codice sorgente del sistema di telemedicina.
-- `test`: Contiene i file di test per verificare le funzionalità del sistema.
-- `risorse`: Contiene risorse aggiuntive, come immagini o file di configurazione.
+- `src`: Contiene il codice sorgente del sistema di telemedicina.
+- `src/test`: Contiene i file di test per verificare le funzionalità del sistema.
+- `src/images`: Contiene risorse aggiuntive, come immagini o file di configurazione.
 
 ## Schermate dell'applicativo 
 
