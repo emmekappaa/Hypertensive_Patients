@@ -27,8 +27,8 @@ Il repository è organizzato nel seguente modo:
 
 ## Schermate dell'applicativo 
 
-![Immagine 2023-07-10 115002](https://github.com/emmekappaa/Pazienti_Ipertesi/assets/94229712/abb619fd-1a5a-42d4-b1a0-80dbb7ac626f)
+![Immagine 2023-07-10 115002](https://github.com/emmekappaa/Pazienti_Ipertesi/assets/94229712/34be1b99-1bb7-465d-bca0-062eed62aab3)
 
-![Immagine 2023-07-10 115136](https://github.com/emmekappaa/Pazienti_Ipertesi/assets/94229712/8671a8d3-2e31-46e9-8b8c-24641eadbf0c)
+![Immagine 2023-07-10 115136](https://github.com/emmekappaa/Pazienti_Ipertesi/assets/94229712/c35a7136-2bd8-4083-86b1-6de7ae9ac5c8)
 
-![Immagine 2023-07-10 115057](https://github.com/emmekappaa/Pazienti_Ipertesi/assets/94229712/5b5aef02-75e0-4792-8749-5bcd5c614153)
+![Immagine 2023-07-10 115057](https://github.com/emmekappaa/Pazienti_Ipertesi/assets/94229712/e20eb1f0-86ca-41e7-9476-ebc7029cf9d1)
