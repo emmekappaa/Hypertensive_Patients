@@ -1,3 +1,4 @@
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
 # Telemedicine System for Hypertensive Patient Management
 
 ## Project Description
