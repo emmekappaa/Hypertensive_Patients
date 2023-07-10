@@ -1,5 +1,6 @@
-[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
 # Telemedicine System for Hypertensive Patient Management
+
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
 
 ## Project Description
 The project aims to develop a telemedicine system for the management of hypertensive patients. The goal is to improve the quality of care and the effectiveness of pharmacological treatment by providing timely and personalized medical interventions. Digital technology will be used for the storage and analysis of data related to blood pressure, symptoms, antihypertensive therapies, and other relevant information.
