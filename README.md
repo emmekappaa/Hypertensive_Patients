@@ -25,6 +25,24 @@ The repository is organized as follows:
 - `src/test`: Contains test files to verify the system's functionalities.
 - `src/images`: Contains additional resources, such as images or configuration files.
 
+## Architectural Pattern
+
+The system has been designed by adopting the Model-View-Controller (MVC) pattern, natively implemented by JavaFX libraries used for the project's graphical interface. The choice to use MVC was motivated by the desire to have a well-defined logical division of classes within the project, thus leveraging the fundamental principle of MVC, which is decoupling.
+
+Each member of the MVC has been assigned a different package, resulting in the following structure:
+
+### Model:
+- Manages the system's data and provides methods to access the database.
+
+### View:
+- Displays the data contained in the Model and handles the interaction between the user (whether it is a doctor or patient) and the system.
+
+### Controller:
+- Receives user commands (via the View) and implements them by modifying the state of the other two components (Model and View).
+
+![Immagine 2023-07-10 124756](https://github.com/emmekappaa/Hypertensive_Patients/assets/94229712/33f8151e-4540-410a-8557-59fc4c0c9325)
+
+
 ## Application Screenshots
 
 ![Immagine 2023-07-10 115002](https://github.com/emmekappaa/Pazienti_Ipertesi/assets/94229712/34be1b99-1bb7-465d-bca0-062eed62aab3)
