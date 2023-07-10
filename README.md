@@ -1,31 +1,31 @@
-# Sistema di Telemedicina per la Gestione dei Pazienti Ipertesi
+# Telemedicine System for Hypertensive Patient Management
 
-## Descrizione del Progetto
-Il progetto mira a sviluppare un sistema di telemedicina per la gestione di pazienti ipertesi. L'obiettivo è migliorare la qualità delle cure e l'efficacia del trattamento farmacologico, rendendo gli interventi medici tempestivi e personalizzati. La tecnologia digitale sarà impiegata per la memorizzazione e l'analisi dei dati relativi alla pressione arteriosa, sintomi, terapie antipertensive e altre informazioni pertinenti.
+## Project Description
+The project aims to develop a telemedicine system for the management of hypertensive patients. The goal is to improve the quality of care and the effectiveness of pharmacological treatment by providing timely and personalized medical interventions. Digital technology will be used for the storage and analysis of data related to blood pressure, symptoms, antihypertensive therapies, and other relevant information.
 
-## Funzionalità Principali
+## Key Features
 
-- Autenticazione per medici specialisti e pazienti
-- Memorizzazione delle rilevazioni giornaliere di pressione arteriosa
-- Registrazione di sintomi, patologie e terapie concomitanti
-- Specifica delle terapie antipertensive da seguire per i pazienti
-- Visualizzazione dei dati dei pazienti in forma sintetica
-- Aggiunta o modifica delle terapie in base all'evoluzione dello stato del paziente
-- Inserimento di informazioni sul paziente, inclusi fattori di rischio e pregresse patologie
-- Verifica dell'aderenza alle terapie prescritte
-- Gestione di alert per pazienti e medici in caso di mancata assunzione dei farmaci
-- Segnalazione ai medici di pressioni oltre le soglie predefinite
-- Comunicazione tra pazienti e medici tramite email
+- Authentication for specialist doctors and patients
+- Storage of daily blood pressure readings
+- Recording of symptoms, conditions, and concurrent therapies
+- Specification of antihypertensive therapies to be followed by patients
+- Display of patient data in a summarized form
+- Addition or modification of therapies based on the patient's evolving condition
+- Input of patient information, including risk factors and past medical conditions
+- Verification of adherence to prescribed therapies
+- Management of alerts for patients and doctors in case of missed medication
+- Notification to doctors of pressures exceeding predefined thresholds
+- Communication between patients and doctors via email
 
-## Struttura del Repository
-Il repository è organizzato nel seguente modo:
+## Repository Structure
+The repository is organized as follows:
 
-- `documentazione`: Contiene la documentazione relativa al progetto, come specifiche tecniche e guide utente.
-- `src`: Contiene il codice sorgente del sistema di telemedicina.
-- `src/test`: Contiene i file di test per verificare le funzionalità del sistema.
-- `src/images`: Contiene risorse aggiuntive, come immagini o file di configurazione.
+- `documentazione`: Contains project documentation, such as technical specifications and user guides.
+- `src`: Contains the source code of the telemedicine system.
+- `src/test`: Contains test files to verify the system's functionalities.
+- `src/images`: Contains additional resources, such as images or configuration files.
 
-## Schermate dell'applicativo 
+## Application Screenshots
 
 ![Immagine 2023-07-10 115002](https://github.com/emmekappaa/Pazienti_Ipertesi/assets/94229712/34be1b99-1bb7-465d-bca0-062eed62aab3)
 
